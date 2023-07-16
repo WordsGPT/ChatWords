@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
 
 @Entity('experiment')
-export class Experiment {
+export class ExperimentEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,7 +9,13 @@ export class Experiment {
     @Column()
     name: string;
 
-    @Column({type: 'json'})
+    @Column()
+    model: string;
+
+    @Column()
+    version: string;
+
+    @Column({type: 'json', nullable: true})
     configuration: object
 
 }

@@ -1,12 +1,10 @@
 export class CreateExperimentDto {
   name: string;
-  coniguration: ExperimentConfiguration;
-}
-
-abstract class ExperimentConfiguration {
   model: string;
+  version: string;
+  configuration: ExperimentConfiguration;
 }
 
-class OpenAIConfiguration extends ExperimentConfiguration {
-  temperature: number;
+class ExperimentConfiguration {
+  model: object;
 }
