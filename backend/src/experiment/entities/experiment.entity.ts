@@ -15,6 +15,9 @@ export class ExperimentEntity {
     @Column()
     version: string;
 
+    @Column()
+    program: string;
+
     @Column({type: 'json', nullable: true})
     configuration: object
 

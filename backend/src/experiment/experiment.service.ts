@@ -18,6 +18,7 @@ export class ExperimentService {
     experiment.name = createExperimentDto.name;
     experiment.model = createExperimentDto.model;
     experiment.version = createExperimentDto.version;
+    experiment.program = createExperimentDto.program;
     experiment.configuration = createExperimentDto.configuration;
     const newExperiment = await this.experimentRepository.save(experiment); 
     console.log(newExperiment)
