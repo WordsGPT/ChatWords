@@ -33,11 +33,11 @@ export class ExperimentCreatorComponent {
     .subscribe(experiments => this.experiments = experiments);
   }
 
-  add(name: string, model: string, version: string, configurationTemperature: string ): void {
+  add(name: string, model: string, version: string, program: string, configurationTemperature: string ): void {
     name = name.trim();
     if (!name || !model || !version) { return; }
     const configuration = {"temperature": configurationTemperature}
-    this.experimentService.addExperiment({ name, model, version, configuration } as Experiment)
+    this.experimentService.addExperiment({ name, model, version, program, configuration } as Experiment)
       .subscribe(experiment => {
         this.experiments.push(experiment);
       });

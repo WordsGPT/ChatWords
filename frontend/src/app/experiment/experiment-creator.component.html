@@ -12,10 +12,14 @@
 <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
 	<div class="card">
 		<form class="row g-3">
-			<div class="col-md-12">
+			<div class="col-md-6">
 			  <label for="new-experiment-name" class="form-label">Name</label>
 			  <input type="text" class="form-control" id="new-experiment-name" #experimentName>
 			</div>
+			<div class="col-md-6">
+				<label for="new-experiment-program" class="form-label">Program</label>
+				<input type="text" class="form-control" id="new-experiment-program" #experimentProgram>
+			  </div>
 			<div class="col-md-6">
 				<label for="new-experiment-model" class="form-label">Model</label>
 				<select id="new-experiment-model" class="form-select" #experimentModel>
@@ -41,20 +45,12 @@
 					experimentName.value, 
 					experimentModel.value, 
 					experimentVersion.value,
+					experimentProgram.value,
 					experimentConfigurationTemperature.value);">
 					Add experiment
 				</button>	
 			</div>
 		  </form>
-		<!-- <label for="new-experiment-name">Experiment name: </label>
-		<input id="new-experiment-name" #experimentName />
-		<label for="new-experiment-model">Experiment model: </label>
-		<input id="new-experiment-model" #experimentModel />
-		<label for="new-experiment-version">Experiment version: </label>
-		<input id="new-experiment-version" #experimentVersion />
-		<label for="new-experiment-configuration">Experiment configuration: </label>
-		<input id="new-experiment-configuration" #experimentConfiguration /> -->
-	
 	
 
 	</div>
@@ -64,6 +60,7 @@
 	<thead>
 		<tr>
 			<th scope="col">Name</th>
+			<th scope="col">Program</th>
 			<th scope="col">Model</th>
 			<th scope="col">Version</th>
 			<th scope="col">Configuration</th>
@@ -72,9 +69,8 @@
 	</thead>
 	<tbody>
 		<tr *ngFor="let experiment of experiments">
-			<td>
-				{{ experiment.name }}
-			</td>
+			<td>{{ experiment.name }}</td>
+			<td>{{ experiment.program }}</td>
 			<td>{{ experiment.model }}</td>
 			<td>{{ experiment.version }}</td>
 			<td>
