@@ -25,7 +25,7 @@ export class ExperimentService {
   }
 
   findAll() {
-    return this.experimentRepository.findAndCount();
+    return this.experimentRepository.find();
   }
 
   findOne(id: number) {
