@@ -1,5 +1,5 @@
 export class CreateWordDto {
   name: string;
-  result: string;
+  result: object;
   experimentId: number;
 }

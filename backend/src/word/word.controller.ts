@@ -21,7 +21,7 @@ export class WordController {
     return this.wordService.create(createWordDto);
   }
 
-  @Post('s')
+  @Post('multiple')
   createWords(@Body() createWordsDto: CreateWordDto[]) {
     return this.wordService.createWords(createWordsDto);
   }

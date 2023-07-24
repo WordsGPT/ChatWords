@@ -96,7 +96,11 @@ Stop experiment
 		<tbody>
 			<tr *ngFor="let word of words">
 				<td>{{ word.name }}</td>
-				<td>{{ word.result }}</td>
+				<td>
+					<ul *ngFor="let item of word.result | keyvalue">
+						<li>{{item.key}}: {{item.value}}</li>
+					</ul>
+				</td>
 				<td>	  
 					<button type="button" class="btn btn-danger btn-table" (click)="delete(word)"><i class="bi bi-trash"></i></button>
 				</td>

@@ -11,8 +11,8 @@ export class WordEntity {
     @Column()
     name: string;
 
-    @Column({nullable: true})
-    result: string;
+    @Column({type: 'json', nullable: true})
+    result: object;
 
     @ManyToOne(() => ExperimentEntity, experiment => experiment.words)
     experiment: ExperimentEntity;

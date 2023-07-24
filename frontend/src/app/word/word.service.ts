@@ -50,7 +50,7 @@ export class WordService {
 
     /** POST: add a new word to the server */
   addWords(words: Word[]): Observable<Word[]> {
-      const url = `${this.wordsUrl}/s`;
+      const url = `${this.wordsUrl}/multiple`;
       return this.http.post<Word[]>(url, words, this.httpOptions).pipe(
         tap(() => this.log(`added words`)),
         catchError(this.handleError<Word[]>('addWords'))

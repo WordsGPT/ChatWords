@@ -1,6 +1,6 @@
 export interface Word {
     id: number;
     name: string;
-    result: string;
+    result: object;
     experimentId: number;
 }

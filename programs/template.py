@@ -66,7 +66,8 @@ def patch_word_from_api(wordId, result):
 def calculate_result(row):
     # simulating call to api
     time.sleep(2)
-    result = 'Example of result'
+    result = {'result1':'Example of result',
+              'result2': 'Example of result 2'}
     patch_word_from_api(row["id"], result)
     return result
 
