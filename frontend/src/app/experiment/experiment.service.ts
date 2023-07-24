@@ -58,6 +58,18 @@ export class ExperimentService {
     );
   }
 
+  runExperiment(id: number): void {
+    const url = `${this.experimentsUrl}/run/${id}`;
+    this.http.get(url, this.httpOptions).subscribe(
+      (response: any) => {
+        console.log('Answer of API:', response);
+      },
+      (error: any) => {
+        console.error('Error in the HTTP request:', error);
+      }
+    );
+  }
+
 
   /**
    * Handle Http operation that failed.

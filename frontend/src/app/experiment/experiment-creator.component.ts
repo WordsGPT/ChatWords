@@ -3,12 +3,13 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { Experiment } from './experiment';
 import { ExperimentService } from './experiment.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-experiment-creator',
   standalone: true,
   templateUrl: './experiment-creator.component.html',
-  imports: [NgbCollapseModule, CommonModule],
+  imports: [NgbCollapseModule, CommonModule, RouterModule],
   styleUrls: ['./experiment-creator.component.scss']
 })
 export class ExperimentCreatorComponent {

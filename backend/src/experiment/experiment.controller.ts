@@ -30,6 +30,12 @@ export class ExperimentController {
     return this.experimentService.findOne(+id);
   }
 
+  @Get('run/:id')
+  async run(@Param('id') id: string) {
+    const experiment = await this.experimentService.findOne(+id);
+    this.experimentService.run(id, experiment);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

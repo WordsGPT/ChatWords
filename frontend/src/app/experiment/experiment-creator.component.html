@@ -4,7 +4,7 @@
 		class="btn btn-secondary"
 		(click)="collapse.toggle()"
 		[attr.aria-expanded]="!isCollapsed"
-		aria-controls="collapseExample"
+		aria-controls="collapseExperiment"
 	>
 		Create a new experiment
 	</button>
@@ -51,8 +51,6 @@
 				</button>	
 			</div>
 		  </form>
-	
-
 	</div>
 </div>
 
@@ -78,8 +76,8 @@
 					<li>{{item.key}}: {{item.value}}</li>
 				</ul>
 			</td>
-			<td>	  
-				<button type="button" class="btn btn-secondary btn-table"><i class="bi bi-eye"></i></button>
+			<td>
+				<button routerLink="/experiment/{{experiment.id}}" type="button" class="btn btn-secondary btn-table"><i class="bi bi-eye"></i></button>
 				<button type="button" class="btn btn-danger btn-table" (click)="delete(experiment)"><i class="bi bi-trash"></i></button>
 			</td>
 		</tr>

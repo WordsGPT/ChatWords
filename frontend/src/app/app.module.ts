@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ExperimentCreatorComponent } from './experiment/experiment-creator.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
+import { WordComponent } from './word/word.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     AppRoutingModule,
     ExperimentCreatorComponent,
-    NgbModule
+    WordComponent,
+    NgbModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

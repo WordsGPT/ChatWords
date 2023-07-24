@@ -4,6 +4,9 @@ import { CreateExperimentDto } from './dto/create-experiment.dto';
 import { UpdateExperimentDto } from './dto/update-experiment.dto';
 import { ExperimentEntity } from './entities/experiment.entity';
 import { Repository } from 'typeorm';
+import { spawn } from 'child_process';
+import { join } from 'path';
+
 
 @Injectable()
 export class ExperimentService {
@@ -21,7 +24,6 @@ export class ExperimentService {
     experiment.program = createExperimentDto.program;
     experiment.configuration = createExperimentDto.configuration;
     const newExperiment = await this.experimentRepository.save(experiment); 
-    console.log(newExperiment)
     return newExperiment;
   }
 
@@ -40,4 +42,16 @@ export class ExperimentService {
   async remove(id: number) {
     return await this.experimentRepository.delete(id);
   }
-}
+
+  run (id:string, experiment:ExperimentEntity) {
+    const pythonExecutable = 'python';
+    const scriptPath = join(__dirname,`../../../programs/${experiment.program}`);
+    const args = [scriptPath, id];
+    const process = spawn(pythonExecutable, args, {
+      detached: true,
+      stdio: ['ignore'],
+    });
+    process.unref();
+    }
+  }
+

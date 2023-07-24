@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import { WordEntity } from 'src/word/entities/word.entity';
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
 
 @Entity('experiment')
 export class ExperimentEntity {
@@ -19,6 +20,9 @@ export class ExperimentEntity {
     program: string;
 
     @Column({type: 'json', nullable: true})
-    configuration: object
+    configuration: object;
+
+    @OneToMany(() => WordEntity, word => word.experiment)
+    words: WordEntity[];
 
 }
