@@ -1,5 +1,5 @@
 
-# Words GPT Tool
+# ChatWords
 A tool to evaluate GPT and language
 
 
@@ -39,4 +39,4 @@ $ npm run test:cov
 
 ## License
 
-Words GPT Tool is [MIT licensed](LICENSE).
+ChatWords is [MIT licensed](LICENSE).
