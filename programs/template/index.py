@@ -30,7 +30,7 @@ def get_experiment_from_api(experimentId):
     
 
 def get_words_from_api(experimentId):
-    urlWord = url + '/word?experimentId='+ str(experimentId)
+    urlWord = url + '/word?experimentId='+ str(experimentId)+'&withResult=true'
 
     try:
         response = requests.get(urlWord)
@@ -75,7 +75,7 @@ def calculate_result(row):
 url = 'http://localhost:3000'
 
 experiment = get_experiment_from_api(experimentId)
-words = get_words_from_api(experimentId)
+words = get_words_from_api(experimentId)[0]
 df = pd.DataFrame(words)
 
 df['result'] = df.apply(calculate_result, axis=1)

@@ -27,8 +27,11 @@ export class WordController {
   }
 
   @Get()
-  findAll(@Query('experimentId') experimentId: number) {
-    return this.wordService.findAllFromExperiment(experimentId);
+  findAll(@Query('experimentId') experimentId: number, 
+    @Query('page') page?:number, 
+    @Query('pageSize') pageSize?:number,
+    @Query('withResult') withResult?:string) {
+    return this.wordService.findAllFromExperimentAndCount(experimentId, withResult, page, pageSize);
   }
 
 

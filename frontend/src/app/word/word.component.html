@@ -80,11 +80,26 @@ Stop experiment
 				</button>	
 			</div>
 		  </form>
+		  <hr>
+		  <form class="row g-3">
+			<h4>Load multiple words from .txt file</h4>
+			<div class="col-12">
+				<input type="file" accept=".txt" (change)="onFileSelected($event)"/>
+			</div>
+			<div class="col-12">
+				<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
+					Add words from file
+				</button>
+			</div>	
+		  </form>
 	</div>
 </div>
 
 
+
 <div>
+	<p>Total words: {{collectionSize}}</p>
+	<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100"><b>{{wordsWithResultSize}} of {{collectionSize}} words tested</b></ngb-progressbar>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -107,6 +122,23 @@ Stop experiment
 			</tr>
 		</tbody>
 	</table>
+	<select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshWords()">
+		<option [ngValue]="50">50 items per page</option>
+		<option [ngValue]="100">100 items per page</option>
+		<option [ngValue]="200">200 items per page</option>
+	</select>
+	<div class="d-flex justify-content-between p-2">
+		<ngb-pagination
+			[collectionSize]="collectionSize"
+			[(page)]="page"
+			[pageSize]="pageSize"
+			[maxSize]="10"
+			[rotate]="true"
+			[boundaryLinks]="true"
+			(pageChange)="refreshWords()"
+		>
+		</ngb-pagination>
+	</div>
 </div>
 
 

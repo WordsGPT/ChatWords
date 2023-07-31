@@ -45,7 +45,7 @@ export class ExperimentService {
 
   run (id:string, experiment:ExperimentEntity) {
     const pythonExecutable = 'python';
-    const scriptPath = join(__dirname,`../../../programs/${experiment.program}`);
+    const scriptPath = join(__dirname,`../../../programs/${experiment.program}/index.py`);
     const args = [scriptPath, id];
     const process = spawn(pythonExecutable, args, {
       detached: true,
