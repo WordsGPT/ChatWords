@@ -22,7 +22,7 @@ export class WordService {
     private messageService: MessageService) { }
 
   /** GET words from the server */
-  getWords(experimentId: number, withResult:boolean, page: number, pageSize:number): Observable<[Word[], number]> {
+  getWords(experimentId: number, withResult:string, page: number, pageSize:number): Observable<[Word[], number]> {
     return this.http.get<[Word[], number]>(`${this.wordsUrl}?experimentId=${experimentId}
       &withResult=${withResult}&page=${page}&pageSize=${pageSize}`)
       .pipe(

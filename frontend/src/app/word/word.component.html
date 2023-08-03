@@ -27,12 +27,20 @@
 >
 	Run experiment
 </button>
-<!-- <button
+<button
 type="button"
+(click)="stopExperiment()"
 class="btn btn-danger"
 >
 Stop experiment
-</button> -->
+</button>
+<button
+type="button"
+(click)="generateExcel()"
+class="btn btn-success"
+>
+Download Excel
+</button>
 </p>
 
 
@@ -98,8 +106,9 @@ Stop experiment
 
 
 <div>
+	<p>Status: {{getExperimentStatus(experiment.status)}}</p>
 	<p>Total words: {{collectionSize}}</p>
-	<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100"><b>{{wordsWithResultSize}} of {{collectionSize}} words tested</b></ngb-progressbar>
+	<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}} words tested</b></ngb-progressbar>
 	<table class="table table-striped">
 		<thead>
 			<tr>

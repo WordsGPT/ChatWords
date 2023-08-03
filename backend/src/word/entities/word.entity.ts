@@ -15,6 +15,6 @@ export class WordEntity {
     @Column({type: 'json', nullable: true})
     result: object;
 
-    @ManyToOne(() => ExperimentEntity, experiment => experiment.words)
+    @ManyToOne(() => ExperimentEntity, experiment => experiment.words, {onDelete: 'CASCADE'})
     experiment: ExperimentEntity;
 }

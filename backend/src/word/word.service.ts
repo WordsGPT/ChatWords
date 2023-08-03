@@ -71,6 +71,9 @@ export class WordService {
     if (withResult === "true") {
       whereClause["result"] = Not(IsNull()); 
     }
+    if (withResult === "false") {
+      whereClause["result"] = IsNull(); 
+    }
     if (pageSize == 0 || pageSize){
       clause['take'] = pageSize
     }

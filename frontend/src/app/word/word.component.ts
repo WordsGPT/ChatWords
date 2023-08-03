@@ -37,6 +37,7 @@ export class WordComponent {
     model: '',
     version: '',
     program: '',
+    status: 0,
     configuration: {}
   };
 
@@ -48,17 +49,21 @@ export class WordComponent {
 
   ngOnInit(): void {
     if (this.experimentId){
-      this.experimentService.getExperiment(this.experimentId)
-      .subscribe(experiment => this.experiment = experiment)
+      this.refreshExperiment()
       this.refreshWords()
 
       setInterval(() => {
         if (this.experimentId){
+          this.refreshExperiment()
           return this.refreshWords()
         }
       }, 2000);
     }
   }
+
+getExperimentStatus(status: number): string {
+  return this.experimentService.getExperimentStatus(status);
+}
 
 getChunksWords(words: Word[], chunkSize: number) {
   const chunks: Word[][] = [];
@@ -97,7 +102,17 @@ getChunksWords(words: Word[], chunkSize: number) {
 
   runExperiment(): void {
     this.experimentService.runExperiment(this.experiment.id)
+      .subscribe(experiment => this.experiment = experiment);
+  }
 
+  stopExperiment(): void {
+    this.experimentService.stopExperiment(this.experiment.id)
+      .subscribe(experiment => this.experiment = experiment);
+
+  }
+
+  generateExcel(): void {
+    this.experimentService.generateExcel(this.experiment.id);
   }
 
   getUniqueWords(text: string): Word[] {
@@ -127,15 +142,19 @@ getChunksWords(words: Word[], chunkSize: number) {
   }
 
   refreshWords() {
-    this.wordService.getWords(this.experimentId, false, this.page, this.pageSize)
+    this.wordService.getWords(this.experimentId, "all", this.page, this.pageSize)
     .subscribe(result => {
       this.words = result[0],
       this.collectionSize = result[1]
     });
-    this.wordService.getWords(this.experimentId, true, 1, 1)
+    this.wordService.getWords(this.experimentId, "true", 1, 1)
     .subscribe(result => {
       this.wordsWithResultSize = result[1]
     });
-
 	}
+
+  refreshExperiment() {
+    this.experimentService.getExperiment(this.experimentId)
+    .subscribe(experiment => this.experiment = experiment)
+  }
 }

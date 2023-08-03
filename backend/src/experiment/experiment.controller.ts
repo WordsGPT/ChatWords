@@ -6,10 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ExperimentService } from './experiment.service';
 import { CreateExperimentDto } from './dto/create-experiment.dto';
 import { UpdateExperimentDto } from './dto/update-experiment.dto';
+import { createReadStream } from 'fs';
+import { Response } from 'express';
 
 @Controller('experiment')
 export class ExperimentController {
@@ -30,10 +35,31 @@ export class ExperimentController {
     return this.experimentService.findOne(+id);
   }
 
-  @Get('run/:id')
+  @Post('run/:id')
   async run(@Param('id') id: string) {
     const experiment = await this.experimentService.findOne(+id);
-    this.experimentService.run(id, experiment);
+    return await this.experimentService.run(id, experiment);
+  }
+
+  @Post('stop/:id')
+  async stop(@Param('id') id: string) {
+    const experiment = await this.experimentService.findOne(+id);
+    return await this.experimentService.stop(id, experiment);
+  }
+  @Post('error/:id')
+  async error(@Param('id') id: string) {
+    const experiment = await this.experimentService.findOne(+id);
+    return await this.experimentService.error(id, experiment);
+  }
+
+  @Get('generateExcel/:id')
+  async generateExcel(@Param('id') id: string) {
+    try {
+      const [filepath, filename] = await this.experimentService.generateExcel(+id);
+      return({filename})
+    } catch (error) {
+      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Patch(':id')

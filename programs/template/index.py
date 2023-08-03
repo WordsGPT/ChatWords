@@ -1,8 +1,21 @@
 import requests
 import pandas as pd
 import time
+import threading
 
 import sys
+
+'''
+Experiment status:
+0: stopped
+1: running
+2: error
+'''
+
+url = 'http://localhost:3000'
+stop_event = threading.Event()
+
+
 
 if len(sys.argv) < 2:
     print('Please call the script as python program.py [experimentNumber]')
@@ -30,7 +43,7 @@ def get_experiment_from_api(experimentId):
     
 
 def get_words_from_api(experimentId):
-    urlWord = url + '/word?experimentId='+ str(experimentId)+'&withResult=true'
+    urlWord = url + '/word?experimentId='+ str(experimentId)+'&withResult=false'
 
     try:
         response = requests.get(urlWord)
@@ -62,26 +75,75 @@ def patch_word_from_api(wordId, result):
     except requests.exceptions.RequestException as e:
         print(f'An error occurred: {e}')
 
+def stop_experiment_status_from_api(experimentId):
+    urlStopExperiment = url + '/experiment/stop/'+ str(experimentId)
+    try:
+        requests.post(urlStopExperiment)
+        print("Program marked as error")
+    except Exception as e:
+        print(e)
+        print("Experiment not stopped")
 
-def calculate_result(row):
-    # simulating call to api
-    time.sleep(2)
-    result = {'result1':'Example of result',
-              'result2': 'Example of result 2'}
-    patch_word_from_api(row["id"], result)
-    return result
+def error_experiment_status_from_api(experimentId):
+    urlErrorExperiment = url + '/experiment/error/'+ str(experimentId)
+    try:
+        requests.post(urlErrorExperiment)
+        print("Program marked as error")
+    except Exception as e:
+        print(e)
+        print("Experiment not marked as error")
+
+def thread_check_status(experimentId):
+    while not stop_event.is_set():
+        try:
+            experiment = get_experiment_from_api(experimentId)
+            if experiment['status'] == 0 or experiment['status'] == 2:
+                stop_event.set()
+                print("Close program")
+                time.sleep(3)
+        except Exception as e:
+                print(e)
+                error_experiment_status_from_api(experimentId)
+                stop_event.set()
 
 
-url = 'http://localhost:3000'
+def thread_main_program(experimentId):
+    def calculate_result(row):
+        if not stop_event.is_set():
+            # simulating call to api
+            time.sleep(2)
+            result = {'result1':'Example of result',
+                    'result2': 'Example of result 2'}
+            patch_word_from_api(row["id"], result)
+            return result
+        else:
+            raise StopIteration()
 
-experiment = get_experiment_from_api(experimentId)
-words = get_words_from_api(experimentId)[0]
-df = pd.DataFrame(words)
+    experiment = get_experiment_from_api(experimentId)
+    words = get_words_from_api(experimentId)[0]
+    df = pd.DataFrame(words)
+    try:
+        df['result'] = df.apply(calculate_result, axis=1)
+    except StopIteration:
+        print("Program stopped")
+    except Exception as e:
+        print(e)
+        error_experiment_status_from_api(experimentId)
 
-df['result'] = df.apply(calculate_result, axis=1)
-print(df)
+    finally:
+        stop_event.set()
+    stop_experiment_status_from_api(experimentId)    
+    print(df)
 
+status_thread = threading.Thread(target=thread_check_status, args=(experimentId))
+main_thread = threading.Thread(target=thread_main_program, args=(experimentId))
 
+status_thread.start()
+main_thread.start()
 
+status_thread.join()
+main_thread.join()
+
+print("Both threads have finished.")
 
 

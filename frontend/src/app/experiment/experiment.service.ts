@@ -4,14 +4,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Experiment } from './experiment';
+import { Experiment, ExperimentStatus } from './experiment';
 import { MessageService } from '../message/message.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class ExperimentService {
 
-  private experimentsUrl = 'http://localhost:3000/experiment';  // URL to web api
+  private serverUrl = 'http://localhost:3000'
+
+  private experimentsUrl = `${this.serverUrl}/experiment`;  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,6 +22,20 @@ export class ExperimentService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
+
+  getExperimentStatus(status: number): string {
+    if (ExperimentStatus['running'] === status){
+      return 'running'
+    } else if (ExperimentStatus['stopped'] === status){
+      return 'stopped'
+    } else if (ExperimentStatus['error'] === status){
+      return 'error'
+    } else {
+      return 'none'
+    }
+  
+  }
+  
 
   /** GET experiments from the server */
   getExperiments(): Observable<Experiment[]> {
@@ -58,16 +74,26 @@ export class ExperimentService {
     );
   }
 
-  runExperiment(id: number): void {
+  runExperiment(id: number): Observable<Experiment> {
     const url = `${this.experimentsUrl}/run/${id}`;
-    this.http.get(url, this.httpOptions).subscribe(
-      (response: any) => {
-        console.log('Answer of API:', response);
-      },
-      (error: any) => {
-        console.error('Error in the HTTP request:', error);
-      }
+    return this.http.post<Experiment>(url, undefined).pipe(
+      tap(_ => this.log(`fetched experiment id=${id}`)),
+      catchError(this.handleError<Experiment>(`getExperiment id=${id}`))
     );
+  }
+
+  stopExperiment(id: number): Observable<Experiment> {
+    const url = `${this.experimentsUrl}/stop/${id}`;
+    return this.http.post<Experiment>(url, undefined).pipe(
+      tap(_ => this.log(`fetched experiment id=${id}`)),
+      catchError(this.handleError<Experiment>(`getExperiment id=${id}`))
+    );
+  }
+
+  generateExcel(id:number): void {
+    const url = `${this.experimentsUrl}/generateExcel/${id}`;
+    this.http.get<{'filename': string}>(url)
+    .subscribe(experimentFileName => {window.open(`${this.serverUrl}/${experimentFileName.filename}`, '_blank')})
   }
 
 

@@ -62,6 +62,7 @@
 			<th scope="col">Model</th>
 			<th scope="col">Version</th>
 			<th scope="col">Configuration</th>
+			<th scope="col">Status</th>
 			<th scope="col">Action</th>
 		</tr>
 	</thead>
@@ -71,6 +72,7 @@
 			<td>{{ experiment.program }}</td>
 			<td>{{ experiment.model }}</td>
 			<td>{{ experiment.version }}</td>
+			<td>{{getExperimentStatus(experiment.status)}}</td>
 			<td>
 				<ul *ngFor="let item of experiment.configuration | keyvalue">
 					<li>{{item.key}}: {{item.value}}</li>
