@@ -51,7 +51,25 @@ export class ExperimentService {
       detached: true,
       stdio: ['ignore'],
     });
-    process.unref();
+    process.stdout.on('data', (data) => {
+      const output = data.toString();
+      console.log('\nStdout:', output);
+    });
+    
+    // Reading stderr
+    process.stderr.on('data', (data) => {
+      const errorOutput = data.toString();
+      console.error('\nStderr:', errorOutput);
+    });
+    
+    // Handle process completion
+    process.on('close', (code) => {
+      if (code === 0) {
+        console.log('\nChild process exited successfully.');
+      } else {
+        console.error(`\nChild process exited with code ${code}.`);
+      }
+    });
     }
   }
 
