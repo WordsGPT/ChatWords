@@ -1,0 +1,57 @@
+.btn-secondary
+    background-color: $main-blue
+    color: white
+    border: 1px solid $main-blue
+    &:hover
+        background-color: white
+        color: $main-blue
+        border: 1px solid $main-blue
+
+.table-striped
+    > tbody
+        > tr > *
+            background-color: $light-orange
+            border-color: $orange
+            color: $main-blue
+            padding: 1.25rem 2.5rem
+        > tr:nth-of-type(odd) > *
+            background-color: $medium-orange
+            border-color: $orange
+            color: $main-blue
+        > tr > *
+            &:first-child
+                font-weight: bold
+            button
+                &:first-child
+                    background-color: white
+                    color: $main-blue
+                    &:hover
+                        background-color: $light-grey
+                        color: $main-blue
+
+    > thead > tr > *
+        color: $dark-grey
+        border-color: $white
+        padding: 1.25rem 4.375rem 1.25rem 2.5rem
+        font-weight: normal
+        &:first-child
+            font-weight: bold
+
+.introduction
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    text-align: center
+    div
+        width: 40vw
+        color: $dark-grey
+
+.card
+    background-color: $main-blue
+    form
+        .form-label
+            color: $light-grey
+        button
+            background-color: $secondary-turquoise
+            color: $main-blue
