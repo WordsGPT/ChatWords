@@ -7,36 +7,6 @@
         color: $main-blue
         border: 1px solid $main-blue
 
-.table-striped
-    > tbody
-        > tr > *
-            background-color: $light-orange
-            border-color: $orange
-            color: $main-blue
-            padding: 1.25rem 2.5rem
-        > tr:nth-of-type(odd) > *
-            background-color: $medium-orange
-            border-color: $orange
-            color: $main-blue
-        > tr > *
-            &:first-child
-                font-weight: bold
-            button
-                &:first-child
-                    background-color: white
-                    color: $main-blue
-                    &:hover
-                        background-color: $light-grey
-                        color: $main-blue
-
-    > thead > tr > *
-        color: $dark-grey
-        border-color: $white
-        padding: 1.25rem 4.375rem 1.25rem 2.5rem
-        font-weight: normal
-        &:first-child
-            font-weight: bold
-
 .introduction
     display: flex
     flex-direction: column
@@ -46,6 +16,47 @@
     div
         width: 40vw
         color: $dark-grey
+    .btn.btn-secondary
+        &:active:focus
+            background-color: $light-grey
+            color: $main-blue
+
+.history
+    .table-responsive
+        overflow-x: auto
+        .table-striped
+            > tbody
+                > tr > *
+                    background-color: $light-orange
+                    border-color: $orange
+                    color: $main-blue
+                    padding: 1.25rem 2.5rem
+                > tr:nth-of-type(odd) > *
+                    background-color: $medium-orange
+                    border-color: $orange
+                    color: $main-blue
+                > tr > *
+                    &:first-child
+                        font-weight: bold
+                    button
+                        &:first-child
+                            background-color: white
+                            color: $main-blue
+                            &:active:focus
+                                background-color: $light-grey
+                                color: $main-blue
+                            &:hover
+                                background-color: $light-grey
+                                color: $main-blue
+            > thead > tr > *
+                color: $dark-grey
+                border-color: $white
+                padding: 1.25rem 4.375rem 1.25rem 2.5rem
+                font-weight: normal
+                &:first-child
+                    font-weight: bold
+    .history-text
+        color: $main-blue
 
 .card
     background-color: $main-blue
@@ -55,3 +66,7 @@
         button
             background-color: $secondary-turquoise
             color: $main-blue
+.logo-font
+    font-family: 'Space Grotesk', sans-serif
+    font-size: 18px
+    font-weight: 500
