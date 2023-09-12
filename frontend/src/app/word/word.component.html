@@ -1,54 +1,27 @@
-<div class="body">
-<button routerLink="/" type="button" class="btn btn-secondary">Return to experiments</button>
-
-
-<p class="btn-right">
-	<button
-		type="button"
-		class="btn btn-secondary"
-		(click)="collapseExperiment.toggle()"
-		[attr.aria-expanded]="isCollapsedExperiment"
-		aria-controls="collapseExperiment"
-	>
-		Experiment information
-	</button>
-	<button
-	type="button"
-	class="btn btn-secondary"
-	(click)="collapseLoadWords.toggle()"
-	[attr.aria-expanded]="isCollapsedLoadWords"
-	aria-controls="collapseLoadWords"
->
-	Load words
-</button>
-	<button
-	type="button"
-	(click)="runExperiment()"
-	class="btn btn-primary"
->
-	Run experiment
-</button>
-<button
-type="button"
-(click)="stopExperiment()"
-class="btn btn-danger"
->
-Stop experiment
-</button>
-<button
-type="button"
-(click)="generateExcel()"
-class="btn btn-success"
->
-Download Excel
-</button>
-</p>
-
-
-<div #collapseExperiment="ngbCollapse" [(ngbCollapse)]="isCollapsedExperiment">
-	<div class="card">
-		<h3>{{experiment.name}}</h3>
-		<hr>
+<div class="body-padding content-wrap">
+	<section class="words-btns">
+		<button routerLink="/" type="button" class="btn btn-secondary btn-return">Go back</button>
+		<div class="words-action-btns">
+			<button type="button" class="btn btn-secondary exp-info-btn" (click)="collapseExperiment.toggle()"
+				[attr.aria-expanded]="isCollapsedExperiment" aria-controls="collapseExperiment"><i
+					class="bi bi-info-circle"></i>
+				Experiment information
+			</button>
+			<button type="button" class="btn btn-secondary load-words-btn" (click)="collapseLoadWords.toggle()"
+				[attr.aria-expanded]="isCollapsedLoadWords" aria-controls="collapseLoadWords"><i
+					class="bi bi-plus-circle"></i>
+				Load words
+			</button>
+			<button type="button" (click)="generateExcel()" class="btn btn-success downl-excel"><i class="bi bi-download"></i>
+				Download Excel
+			</button>
+		</div>
+	</section>
+	<section #collapseExperiment="ngbCollapse" [(ngbCollapse)]="isCollapsedExperiment">
+		<div class="card exp-info">
+			<div>
+			<h3>{{experiment.name}}</h3>
+			<hr>
 			<p><b>Program:</b> {{experiment.program}}</p>
 			<p><b>Model:</b> {{experiment.model}}</p>
 			<p><b>Version:</b> {{experiment.version}}</p>
@@ -57,99 +30,100 @@ Download Excel
 				<ul *ngFor="let item of experiment.configuration | keyvalue">
 					<li>{{item.key}}: {{item.value}}</li>
 				</ul>
-		</ul>
-	</div>
-</div>
+			</ul>
+		</div>
+		</div>
+	</section>
 
-<div #collapseLoadWords="ngbCollapse" [(ngbCollapse)]="isCollapsedLoadWords">
-	<div class="card">
-		<form class="row g-3">
-			<h4>Load single word</h4>
-			<div class="col-md-6">
-			  <label for="new-experiment-name" class="form-label">Word</label>
-			  <input type="text" class="form-control" id="new-experiment-name" #wordName>
-			</div>
-			<div class="col-12">
-				<button type="button" class="btn btn-secondary" (click)="add(
+	<div #collapseLoadWords="ngbCollapse" [(ngbCollapse)]="isCollapsedLoadWords">
+		<section class="card body-padding load-words-form">
+			<form class="row g-3">
+				<h4>Load single word</h4>
+				<div class="col-md-6">
+					<label for="new-experiment-name" class="form-label">Word</label>
+					<input type="text" class="form-control" id="new-experiment-name" #wordName>
+				</div>
+				<div class="col-12">
+					<button type="button" class="btn btn-secondary" (click)="add(
 					wordName.value);">
-					Add word
-				</button>	
-			</div>
-		  </form>
-		  <hr>
-		<form class="row g-3">
-			<h4>Load multiple words</h4>
-			<div class="col-12">
-			  <textarea placeholder="Spliting words" class="form-control" id="wordsText" rows="3" #wordsText></textarea>
-			</div>
-			<div class="col-12">
-				<button type="button" class="btn btn-secondary" (click)="addWords(
+						Add word
+					</button>
+				</div>
+			</form>
+			<form class="row g-3">
+				<h4>Load multiple words</h4>
+				<div class="col-12">
+					<textarea placeholder="Spliting words" class="form-control" id="wordsText" rows="3"
+						#wordsText></textarea>
+				</div>
+				<div class="col-12">
+					<button type="button" class="btn btn-secondary" (click)="addWords(
 					wordsText.value);">
-					Add words
-				</button>	
-			</div>
-		  </form>
-		  <hr>
-		  <form class="row g-3">
-			<h4>Load multiple words from .txt file</h4>
-			<div class="col-12">
-				<input type="file" accept=".txt" (change)="onFileSelected($event)"/>
-			</div>
-			<div class="col-12">
-				<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
-					Add words from file
-				</button>
-			</div>	
-		  </form>
+						Add words
+					</button>
+				</div>
+			</form>
+			<form class="row g-3">
+				<h4>Load multiple words from .txt file</h4>
+				<div class="col-12">
+					<input type="file" accept=".txt" (change)="onFileSelected($event)" />
+				</div>
+				<div class="col-12">
+					<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
+						Add words from file
+					</button>
+				</div>
+			</form>
+		</section>
+	</div>
+
+	<div class="exp-actions">
+		<button type="button" (click)="runExperiment()" class="btn btn-primary"><i class="bi bi-play-fill"></i>
+			Run experiment
+		</button>
+		<button type="button" (click)="stopExperiment()" class="btn btn-danger"> <i class="bi bi-stop-fill"></i>
+			Stop experiment
+		</button>
+	</div>
+
+	<div>
+		<p>Status: {{getExperimentStatus(experiment.status)}}</p>
+		<p>Total words: {{collectionSize}}</p>
+		<ngb-progressbar type="warning"
+			[value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
+				words tested</b></ngb-progressbar>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Word</th>
+					<th scope="col">Result</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let word of words">
+					<td>{{ word.name }}</td>
+					<td>
+						<ul *ngFor="let item of word.result | keyvalue">
+							<li>{{item.key}}: {{item.value}}</li>
+						</ul>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger btn-table" (click)="delete(word)"><i
+								class="bi bi-trash"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshWords()">
+			<option [ngValue]="50">50 items per page</option>
+			<option [ngValue]="100">100 items per page</option>
+			<option [ngValue]="200">200 items per page</option>
+		</select>
+		<div class="d-flex justify-content-between p-2">
+			<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [maxSize]="10"
+				[rotate]="true" [boundaryLinks]="true" (pageChange)="refreshWords()">
+			</ngb-pagination>
+		</div>
 	</div>
 </div>
-
-
-
-<div>
-	<p>Status: {{getExperimentStatus(experiment.status)}}</p>
-	<p>Total words: {{collectionSize}}</p>
-	<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}} words tested</b></ngb-progressbar>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th scope="col">Word</th>
-				<th scope="col">Result</th>
-				<th scope="col">Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let word of words">
-				<td>{{ word.name }}</td>
-				<td>
-					<ul *ngFor="let item of word.result | keyvalue">
-						<li>{{item.key}}: {{item.value}}</li>
-					</ul>
-				</td>
-				<td>	  
-					<button type="button" class="btn btn-danger btn-table" (click)="delete(word)"><i class="bi bi-trash"></i></button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshWords()">
-		<option [ngValue]="50">50 items per page</option>
-		<option [ngValue]="100">100 items per page</option>
-		<option [ngValue]="200">200 items per page</option>
-	</select>
-	<div class="d-flex justify-content-between p-2">
-		<ngb-pagination
-			[collectionSize]="collectionSize"
-			[(page)]="page"
-			[pageSize]="pageSize"
-			[maxSize]="10"
-			[rotate]="true"
-			[boundaryLinks]="true"
-			(pageChange)="refreshWords()"
-		>
-		</ngb-pagination>
-	</div>
-</div>
-</div>
-
-

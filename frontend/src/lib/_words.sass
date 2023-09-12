@@ -1,0 +1,50 @@
+.words-btns
+    display: flex
+    justify-content: space-between
+    margin-bottom: 1rem
+    .btn-return
+        border: 1px solid $main-blue
+        background-color: $light-grey
+        color: $main-blue
+        &:hover, &:active:focus
+            background-color: $medium-grey
+            color: $main-blue
+    .words-action-btns
+        button
+            margin-left: 10px
+            &.exp-info-btn
+                border: 1px solid $dark-grey
+                background-color: $dark-grey
+                &:hover, &:active:focus
+                    background-color: $medium-grey
+                    color: $dark-grey
+            &.load-words-btn
+                background-color: $main-blue
+                color: $light-grey
+                &:hover, &:active:focus
+                    background-color: $darker-blue
+
+.exp-actions
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-top: 1rem
+    .btn-primary
+        margin-right: 10px
+        background-color: $secondary-turquoise
+        color: $main-blue
+        border: 1px solid $secondary-turquoise
+        &:hover, &:active:focus
+            background-color: $main-blue
+            color: $secondary-turquoise
+            border: 1px solid $main-blue
+
+section.load-words-form
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    justify-content: space-between
+
+.exp-info
+    background-color: $dark-grey
+    color: $light-grey
