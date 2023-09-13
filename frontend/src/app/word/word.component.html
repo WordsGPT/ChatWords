@@ -36,63 +36,67 @@
 	</section>
 
 	<div #collapseLoadWords="ngbCollapse" [(ngbCollapse)]="isCollapsedLoadWords">
-		<section class="card body-padding load-words-form">
-			<form class="row g-3">
-				<h4>Load single word</h4>
-				<div class="col-md-6">
-					<label for="new-experiment-name" class="form-label">Word</label>
-					<input type="text" class="form-control" id="new-experiment-name" #wordName>
+		<section class="card body-padding">
+			<form class="load-words-form">
+				<div class="load-words-col">
+					<h4>
+						You can either input the words <b>individually</b>, or <b>paste/write a paragraph</b> and it will split them up for you automatically. You can also upload multiple words from a <b>.txt file.</b>
+					</h4>
+					<label for="new-experiment-name" class="form-label">Load single word</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="new-experiment-name" placeholder="Word" #wordName>
+					</div>
+					<div class="col-12">
+						<button type="button" class="btn btn-secondary" (click)="add(
+						wordName.value);">
+							Add word
+						</button>
+					</div>
 				</div>
-				<div class="col-12">
-					<button type="button" class="btn btn-secondary" (click)="add(
-					wordName.value);">
-						Add word
-					</button>
+				<div class="load-words-col">
+					<label for="wordsText" class="form-label">Load multiple words</label>
+					<div class="col-12">
+						<textarea placeholder="Spliting words" class="form-control" id="wordsText" rows="3"
+							#wordsText></textarea>
+					</div>
+					<div class="col-12">
+						<button type="button" class="btn btn-secondary" (click)="addWords(
+						wordsText.value);">
+							Add words
+						</button>
+					</div>
 				</div>
-			</form>
-			<form class="row g-3">
-				<h4>Load multiple words</h4>
-				<div class="col-12">
-					<textarea placeholder="Spliting words" class="form-control" id="wordsText" rows="3"
-						#wordsText></textarea>
-				</div>
-				<div class="col-12">
-					<button type="button" class="btn btn-secondary" (click)="addWords(
-					wordsText.value);">
-						Add words
-					</button>
-				</div>
-			</form>
-			<form class="row g-3">
-				<h4>Load multiple words from .txt file</h4>
-				<div class="col-12">
-					<input type="file" accept=".txt" (change)="onFileSelected($event)" />
-				</div>
-				<div class="col-12">
-					<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
-						Add words from file
-					</button>
+				<div class="load-words-col">
+					<label class="form-label">Load multiple words from .txt file</label>
+					<div class="col-12">
+						<input type="file" accept=".txt" (change)="onFileSelected($event)" />
+					</div>
+					<div class="col-12">
+						<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
+							Add words from file
+						</button>
+					</div>
 				</div>
 			</form>
 		</section>
 	</div>
 
-	<div class="exp-actions">
+	<section class="exp-actions">
 		<button type="button" (click)="runExperiment()" class="btn btn-primary"><i class="bi bi-play-fill"></i>
 			Run experiment
 		</button>
 		<button type="button" (click)="stopExperiment()" class="btn btn-danger"> <i class="bi bi-stop-fill"></i>
 			Stop experiment
 		</button>
-	</div>
+	</section>
 
-	<div>
-		<p>Status: {{getExperimentStatus(experiment.status)}}</p>
-		<p>Total words: {{collectionSize}}</p>
+	<section class="words-result">
+		<p><b>Status:</b> {{getExperimentStatus(experiment.status)}}</p>
+		<p><b>Total words:</b> {{collectionSize}}</p>
 		<ngb-progressbar type="warning"
 			[value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
 				words tested</b></ngb-progressbar>
-		<table class="table table-striped">
+		<table class="table table-striped words-result-table">
 			<thead>
 				<tr>
 					<th scope="col">Word</th>
@@ -109,8 +113,8 @@
 						</ul>
 					</td>
 					<td>
-						<button type="button" class="btn btn-danger btn-table" (click)="delete(word)"><i
-								class="bi bi-trash"></i></button>
+						<button type="button" class="btn btn-table" (click)="delete(word)"><i
+								class="bi bi-x-square-fill"></i></button>
 					</td>
 				</tr>
 			</tbody>
@@ -125,5 +129,5 @@
 				[rotate]="true" [boundaryLinks]="true" (pageChange)="refreshWords()">
 			</ngb-pagination>
 		</div>
-	</div>
+	</section>
 </div>

@@ -19,7 +19,7 @@
 		</p>
 	</section>
 	<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="body-padding">
-		<div class="card">
+		<div class="card add-exp-form">
 			<form class="row g-3">
 				<div class="col-md-6">
 					<label for="new-experiment-name" class="form-label">Name</label>
@@ -51,7 +51,7 @@
 				</div>
 
 				<div class="col-12">
-					<button type="button" class="btn btn-secondary" (click)="add(
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="add(
 					experimentName.value, 
 					experimentModel.value, 
 					experimentVersion.value,
