@@ -22,11 +22,12 @@ export class WordService {
     private messageService: MessageService) { }
 
   /** GET words from the server */
-  getWords(experimentId: number): Observable<Word[]> {
-    return this.http.get<Word[]>(`${this.wordsUrl}?experimentId=${experimentId}`)
+  getWords(experimentId: number, withResult:string, page: number, pageSize:number): Observable<[Word[], number]> {
+    return this.http.get<[Word[], number]>(`${this.wordsUrl}?experimentId=${experimentId}
+      &withResult=${withResult}&page=${page}&pageSize=${pageSize}`)
       .pipe(
         tap(_ => this.log('fetched words')),
-        catchError(this.handleError<Word[]>('getWords', []))
+        catchError(this.handleError<[Word[], number]>('getWords', [[], 0]))
       );
   }
 
@@ -43,7 +44,7 @@ export class WordService {
   /** POST: add a new word to the server */
   addWord(word: Word): Observable<Word> {
     return this.http.post<Word>(this.wordsUrl, word, this.httpOptions).pipe(
-      tap((newWord: Word) => this.log(`added word w/ id=${newWord.id}`)),
+      tap((newWord: Word) => this.log(`added word w/ id=${newWord?.id || "none"}`)),
       catchError(this.handleError<Word>('addWord'))
     );
   }

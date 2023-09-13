@@ -4,9 +4,15 @@ import { AppService } from './app.service';
 import { ExperimentModule } from './experiment/experiment.module';
 import { WordModule } from './word/word.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
+    TypeOrmModule.forRoot({
     type: "sqlite",
     database: "db.sqlite",
     synchronize: true,

@@ -9,5 +9,6 @@ import { ExperimentEntity } from 'src/experiment/entities/experiment.entity';
   imports: [TypeOrmModule.forFeature([WordEntity, ExperimentEntity])],
   controllers: [WordController],
   providers: [WordService],
+  exports: [WordService]
 })
 export class WordModule {}

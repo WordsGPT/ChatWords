@@ -1,8 +1,9 @@
 import { ExperimentEntity } from 'src/experiment/entities/experiment.entity';
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique} from 'typeorm';
 
 
 @Entity('word')
+@Unique(['name', 'experiment'])
 export class WordEntity {
 
     @PrimaryGeneratedColumn()
@@ -14,6 +15,6 @@ export class WordEntity {
     @Column({type: 'json', nullable: true})
     result: object;
 
-    @ManyToOne(() => ExperimentEntity, experiment => experiment.words)
+    @ManyToOne(() => ExperimentEntity, experiment => experiment.words, {onDelete: 'CASCADE'})
     experiment: ExperimentEntity;
 }
