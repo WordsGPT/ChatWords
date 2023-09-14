@@ -12,7 +12,8 @@
 					class="bi bi-plus-circle"></i>
 				Load words
 			</button>
-			<button type="button" (click)="generateExcel()" class="btn btn-success downl-excel"><i class="bi bi-download"></i>
+			<button type="button" (click)="generateExcel()" class="btn btn-success downl-excel"><i
+					class="bi bi-download"></i>
 				Download Excel
 			</button>
 		</div>
@@ -20,18 +21,16 @@
 	<section #collapseExperiment="ngbCollapse" [(ngbCollapse)]="isCollapsedExperiment">
 		<div class="card exp-info">
 			<div>
-			<h3>{{experiment.name}}</h3>
-			<hr>
-			<p><b>Program:</b> {{experiment.program}}</p>
-			<p><b>Model:</b> {{experiment.model}}</p>
-			<p><b>Version:</b> {{experiment.version}}</p>
-			<p><b>Configurations:</b></p>
-			<ul>
+				<h3>{{experiment.name}}</h3>
+				<hr>
+				<p><b>Program:</b> {{experiment.program}}</p>
+				<p><b>Model:</b> {{experiment.model}}</p>
+				<p><b>Version:</b> {{experiment.version}}</p>
+				<p><b>Configurations:</b></p>
 				<ul *ngFor="let item of experiment.configuration | keyvalue">
 					<li>{{item.key}}: {{item.value}}</li>
 				</ul>
-			</ul>
-		</div>
+			</div>
 		</div>
 	</section>
 
@@ -40,7 +39,9 @@
 			<form class="load-words-form">
 				<div class="load-words-col">
 					<h4>
-						You can either input the words <b>individually</b>, or <b>paste/write a paragraph</b> and it will split them up for you automatically. You can also upload multiple words from a <b>.txt file.</b>
+						You can either input the words <b>individually</b>, or <b>paste/write a paragraph</b> and it
+						will split them up for you automatically. You can also upload multiple words from a <b>.txt
+							file.</b>
 					</h4>
 					<label for="new-experiment-name" class="form-label">Load single word</label>
 					<div class="col-md-6">
@@ -49,7 +50,7 @@
 					<div class="col-12">
 						<button type="button" class="btn btn-secondary" (click)="add(
 						wordName.value);">
-							Add single word <i class="bi bi-plus-circle-fill"></i>
+							<i class="bi bi-plus-circle-fill"></i> Add single word
 						</button>
 					</div>
 				</div>
@@ -62,18 +63,18 @@
 					<div class="col-12">
 						<button type="button" class="btn btn-secondary" (click)="addWords(
 						wordsText.value);">
-							Add multiple words <i class="bi bi-plus-circle-fill"></i>
+							<i class="bi bi-plus-circle-fill"></i> Add multiple words
 						</button>
 					</div>
 				</div>
 				<div class="load-words-col">
 					<label class="form-label">Load multiple words from .txt file</label>
 					<div class="col-12">
-						<input type="file" accept=".txt" (change)="onFileSelected($event)" class="form-control"/>
+						<input type="file" accept=".txt" (change)="onFileSelected($event)" class="form-control" />
 					</div>
 					<div class="col-12">
 						<button type="button" class="btn btn-secondary" (click)="addWords(fileContent);">
-							Add words from file <i class="bi bi-plus-circle-fill"></i>
+							<i class="bi bi-plus-circle-fill"></i> Add words from file
 						</button>
 					</div>
 				</div>
@@ -93,15 +94,14 @@
 	<section class="words-result">
 		<p><b>Status:</b> {{getExperimentStatus(experiment.status)}}</p>
 		<p><b>Total words:</b> {{collectionSize}}</p>
-		<ngb-progressbar type="warning"
-			[value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
+		<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
 				words tested</b></ngb-progressbar>
 		<table class="table table-striped words-result-table">
 			<thead>
 				<tr>
 					<th scope="col">Word</th>
 					<th scope="col">Result</th>
-					<th scope="col">Action</th>
+					<th scope="col" class="btn-right">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -112,7 +112,7 @@
 							<li>{{item.key}}: {{item.value}}</li>
 						</ul>
 					</td>
-					<td>
+					<td class="btn-right">
 						<button type="button" class="btn btn-table" (click)="delete(word)"><i
 								class="bi bi-x-square-fill"></i></button>
 					</td>

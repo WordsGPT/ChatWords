@@ -43,19 +43,17 @@
 //History Table
 .history
     .table-responsive
-        overflow-x: auto
         .table-striped
-            > tbody
-                > tr > *
-                    background-color: $light-orange
-                    border-color: $orange
-                    color: $main-blue
-                    padding: 1.25rem 1.5rem 1rem
+            > tbody    
                 > tr:nth-of-type(odd) > *
                     background-color: $medium-orange
                     border-color: $orange
                     color: $main-blue
                 > tr > *
+                    background-color: $light-orange
+                    border-color: $orange
+                    color: $main-blue
+                    padding: 1.25rem 1.5rem 1rem
                     &:first-child
                         font-weight: bold
                     button
@@ -63,10 +61,10 @@
                             background-color: $light-grey
                             color: $main-blue
                             &:active:focus
-                                background-color: $light-grey
+                                background-color: $medium-grey
                                 color: $main-blue
                             &:hover
-                                background-color: $light-grey
+                                background-color: $medium-grey
                                 color: $main-blue
             > thead > tr > *
                 color: $dark-grey

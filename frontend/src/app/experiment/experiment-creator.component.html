@@ -84,7 +84,7 @@
 						<th scope="col">Version</th>
 						<th scope="col">Configuration</th>
 						<th scope="col">Status</th>
-						<th scope="col">Action</th>
+						<th scope="col" class="btn-right">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -99,7 +99,8 @@
 								<li>{{item.key}}: {{item.value}}</li>
 							</ul>
 						</td>
-						<td class="action-btns">
+						
+						<td class="action-btns btn-right">
 							<button routerLink="/experiment/{{experiment.id}}" type="button"
 								class="btn btn-secondary btn-table"><i class="bi bi-eye"></i></button>
 							<button type="button" class="btn btn-danger btn-table" (click)="delete(experiment)"><i

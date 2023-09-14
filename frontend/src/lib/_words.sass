@@ -45,11 +45,6 @@ section.exp-actions
         &:focus-visible
             box-shadow: 0 0 0 0.25rem rgba(16, 113, 109, 0.5)
 
-//Experiment Info Card
-.exp-info
-    background-color: $dark-grey
-    color: $light-grey
-
 //Load Words Form
 .card
     background-color: $main-blue
@@ -64,7 +59,8 @@ section.exp-actions
             margin-right: 1.5rem
             .form-label
                 color: $light-grey
-                font-size: 0.9rem
+                font-size: 1rem
+                font-weight: 500
             h4
                 font-size: 1rem
                 color: $light-blue
@@ -89,6 +85,15 @@ section.exp-actions
                 background-color: $medium-grey
             &.form-control
                 color: red
+
+//Experiment Info Card
+.exp-info
+    background-color: $dark-grey
+    color: $light-grey
+    margin-bottom: 1rem
+    h3
+        text-transform: uppercase
+
 //Words Result Table
 .words-result
     .words-result-table
