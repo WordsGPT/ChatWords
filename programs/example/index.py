@@ -128,6 +128,11 @@ def start_experiment(experimentId):
 
     status_thread.join()
     main_thread.join()
+    
+def start_experiment_delete(experimentId):
+    words = connector.get_words_from_api(experimentId)[0]
+    openai_api.authentication()
+    run_experiment(words)
 
 
 def main():
@@ -135,7 +140,7 @@ def main():
         pass
     else:
         experimentId = sys.argv[1]
-        start_experiment(experimentId)
+        start_experiment_delete(experimentId)
 
 
 if __name__ == "__main__":
