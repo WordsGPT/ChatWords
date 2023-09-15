@@ -26,7 +26,7 @@
                     background-color: $darker-blue
 
 //Action Buttons
-section.exp-actions
+.exp-actions
     display: flex
     align-items: center
     justify-content: center
@@ -94,6 +94,12 @@ section.exp-actions
     h3
         text-transform: uppercase
 
+//Progress Bar
+.words-progress-bar
+    color: $dark-grey
+    text-align: center
+    margin-top: 10px
+
 //Words Result Table
 .words-result
     .words-result-table
@@ -110,6 +116,8 @@ section.exp-actions
                 background-color: $light-grey
                 border-color: $dark-grey
                 padding: 1.25rem 1.5rem 1rem
+                &:first-child
+                    font-weight: bold
             .btn-table
                 padding: 0
                 margin: 0
@@ -125,3 +133,8 @@ section.exp-actions
                     padding: 0
                     margin: 0
                     font-size: 1.5rem
+
+//Pagination
+.page-link.active, .active > .page-link 
+    background-color: $main-blue
+    border-color: $darker-blue

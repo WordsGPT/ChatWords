@@ -18,10 +18,28 @@ section.card
                     margin-bottom: 40px
 
 //Footer
-footer
+footer.github-link
     @media screen and ( max-width: 767px)
         flex-direction: column
-        height: 4rem !important
+        height: 4rem
 .content-wrap
     @media screen and (max-width: 767px)
         padding-bottom: 4rem
+
+//Words Page: Top Buttons
+.words-btns
+    @media screen and (max-width: 767px)
+        align-items: flex-start
+        .words-action-btns
+            display: flex
+            flex-direction: column
+            button
+                margin-bottom: 0.5rem
+
+@media screen and (max-width: 767px)
+    section.exp-actions
+        flex-direction: column
+        align-items: stretch
+        .btn-primary
+            margin: 0px
+            margin-bottom:10px

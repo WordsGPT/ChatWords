@@ -92,10 +92,12 @@
 	</section>
 
 	<section class="words-result">
-		<p><b>Status:</b> {{getExperimentStatus(experiment.status)}}</p>
-		<p><b>Total words:</b> {{collectionSize}}</p>
-		<ngb-progressbar type="warning" [value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
-				words tested</b></ngb-progressbar>
+		<div class="words-progress-bar">
+			<p><b>Status:</b> {{getExperimentStatus(experiment.status)}} <br><b>Total words:</b> {{collectionSize}}</p>
+			<ngb-progressbar type="warning"
+				[value]="wordsWithResultSize/collectionSize *100 + 10"><b>{{wordsWithResultSize}} of {{collectionSize}}
+					words tested</b></ngb-progressbar>
+		</div>
 		<table class="table table-striped words-result-table">
 			<thead>
 				<tr>
