@@ -20,7 +20,7 @@ def get_experiment_from_api(experimentId, url = 'http://localhost:3000'):
     
 
 def get_words_from_api(experimentId, url = 'http://localhost:3000'):
-    urlWord = url + '/word?experimentId=' + str(experimentId)
+    urlWord = url + '/word?experimentId='+ str(experimentId)+'&withResult=false'
 
     try:
         response = requests.get(urlWord)
