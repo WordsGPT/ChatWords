@@ -1,5 +1,5 @@
 # ChatWords
-![](https://img.shields.io/badge/Open%20WordsGPT-ChatWords-blue)
+![](https://img.shields.io/badge/WordsGPT-ChatWords-blue)
 ![License](https://img.shields.io/github/license/WordsGPT/ChatWords)
 ![](https://img.shields.io/badge/Open%20Source-Yes-green)
 
@@ -27,7 +27,7 @@ With two input words:
   
 ChatWords queries ChatGPT using OpenAI’s API and stores the responses in a database for further processing. ChatWords can be accessed using a Web interface.
 
-## Installation requirements
+## Installation
 
 ## Extending ChatWords (Developer Guide)
 
