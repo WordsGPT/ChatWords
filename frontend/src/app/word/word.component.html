@@ -20,10 +20,12 @@
 >
 	Load words
 </button>
+
 	<button
 	type="button"
 	(click)="runExperiment()"
 	class="btn btn-primary"
+	*ngIf="getExperimentStatus(experiment.status) !== 'running'"
 >
 	Run experiment
 </button>
@@ -31,6 +33,7 @@
 type="button"
 (click)="stopExperiment()"
 class="btn btn-danger"
+*ngIf="getExperimentStatus(experiment.status) === 'running'"
 >
 Stop experiment
 </button>

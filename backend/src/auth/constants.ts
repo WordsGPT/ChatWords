@@ -1,4 +1,4 @@
-const JWT_SECRET = process.env.USER_PASSWORD || "djkñfjalsfjañlfj";
+const JWT_SECRET = process.env.JWT_SECRET || "djkñfjalsfjañlfj";
 
 export const jwtConstants = {
     secret: JWT_SECRET

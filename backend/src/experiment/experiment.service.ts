@@ -56,7 +56,6 @@ export class ExperimentService {
       try {
    
         const experiment = await this.experimentRepository.findOneBy({id});
-        console.log(experiment)
     
         const workbook = new ExcelJS.Workbook();
         const experimentSheet = workbook.addWorksheet('Experiment');

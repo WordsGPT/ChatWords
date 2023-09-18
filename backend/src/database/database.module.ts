@@ -8,9 +8,9 @@ import { join } from 'path';
             type: "sqlite",
             database: "db.sqlite",
             synchronize: true,
-            logging: true,
+            logging: ["error", "warn"],
             autoLoadEntities: true,
-            migrationsRun: true
+            migrationsRun: true,
         })
     ]
 })

@@ -18,7 +18,9 @@
 			</div>
 			<div class="col-md-6">
 				<label for="new-experiment-program" class="form-label">Program</label>
-				<input type="text" class="form-control" id="new-experiment-program" #experimentProgram>
+				<select id="new-experiment-program" class="form-select" #experimentProgram>
+				  <option selected value="meaning">Meaning</option>
+				</select>
 			  </div>
 			<div class="col-md-6">
 				<label for="new-experiment-model" class="form-label">Model</label>
@@ -30,7 +32,7 @@
 				<label for="new-experiment-version" class="form-label">Version</label>
 				<select id="new-experiment-version" class="form-select" #experimentVersion>
 				  <option selected value="3.5">3.5</option>
-				  <option value="4">4</option>
+				  <!-- <option value="4">4</option> -->
 				</select>
 			  </div>
 			  <div>
@@ -72,12 +74,12 @@
 			<td>{{ experiment.program }}</td>
 			<td>{{ experiment.model }}</td>
 			<td>{{ experiment.version }}</td>
-			<td>{{getExperimentStatus(experiment.status)}}</td>
 			<td>
 				<ul *ngFor="let item of experiment.configuration | keyvalue">
 					<li>{{item.key}}: {{item.value}}</li>
 				</ul>
 			</td>
+			<td>{{getExperimentStatus(experiment.status)}}</td>
 			<td>
 				<button routerLink="/experiment/{{experiment.id}}" type="button" class="btn btn-secondary btn-table"><i class="bi bi-eye"></i></button>
 				<button type="button" class="btn btn-danger btn-table" (click)="delete(experiment)"><i class="bi bi-trash"></i></button>

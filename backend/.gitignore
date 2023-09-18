@@ -39,3 +39,4 @@ lerna-debug.log*
 
 public/*.xlsx
 public/*.csv
+public/frontend

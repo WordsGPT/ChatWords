@@ -10,7 +10,7 @@ export class LoginService {
 
   private serverUrl = 'http://localhost:3000/auth/login'
 
-  public isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedInSubject = new BehaviorSubject<boolean>(true);
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
 

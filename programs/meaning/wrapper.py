@@ -18,7 +18,6 @@ def fix_empty(df):
     MAX_PROMPT = 5
     for index in range(len(df)):
         print(f"{index} of {len(df)}")
-        dataset.write_dataset(df)
         for number_prompt in range(1, MAX_PROMPT):
             for model in ['davinci', 'gpt3']:
                 if (isinstance(df.loc[index, f'Prompt_{number_prompt}_{model}'], float) and np.isnan(df.loc[index, f'Prompt_{number_prompt}_{model}'])) or (df.loc[index, f'Prompt_{number_prompt}_{model}'] is None):
@@ -27,7 +26,6 @@ def fix_empty(df):
                         df.loc[index, f'Prompt_{number_prompt}_davinci'] = asyncio.run(openai_api.ask_completion(word, type=number_prompt, timeout=120))
                     elif model == 'gpt3':
                         df.loc[index, f'Prompt_{number_prompt}_gpt3'] = asyncio.run(openai_api.send_message_openai(word, type=number_prompt, timeout=120))
-    dataset.write_dataset(df)
     return df 
 
 
@@ -38,12 +36,10 @@ async def loop_through(df):
     check_and_create_columns(df, temp1 + temp2)
     paso = 50
     for inicio, fin in zip(range(0, len(df), paso), range(paso, len(df)+paso, paso)):
-        dataset.write_dataset(df)
         for number_prompt in range(1, MAX_PROMPT):
             df.loc[inicio:fin, f'Prompt_{number_prompt}_gpt3'] = await asyncio.gather(*(openai_api.send_message_openai(word, type=number_prompt) for word in df.loc[inicio:fin, 'Word']))
             df.loc[inicio:fin, f'Prompt_{number_prompt}_davinci'] = await asyncio.gather(*(openai_api.ask_completion(word, type=number_prompt) for word in df.loc[inicio:fin, 'Word']))
 
-    dataset.write_dataset(df)
     return df
 
 
@@ -55,7 +51,6 @@ def binary(df):
     for column in columns:
         df[f'{column}_binario'] = df[column].str.contains('|'.join('yes'), case=False, regex=True)
         df[f'{column}_binario'] = df[f'{column}_binario'].map({True: 1, False: 0})
-        dataset.write_dataset(df)
 
 
 def meaning(df):
@@ -63,12 +58,10 @@ def meaning(df):
 
     for index in range(len(df)):
         print(f"{index} of {len(df)}")
-        dataset.write_dataset(df)
         word = df.loc[index, 'Word']
         df.loc[index, 'Meaning_davinci'] = asyncio.run(openai_api.ask_completion(word, type=5, timeout=120))
         df.loc[index, 'Meaning_gpt3'] = asyncio.run(openai_api.send_message_openai(word, type=5, timeout=120))
 
-    dataset.write_dataset(df)
     return 
 
 

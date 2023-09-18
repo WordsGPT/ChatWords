@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import time
 import threading
+import os
 
 import sys
 
@@ -12,7 +13,9 @@ Experiment status:
 2: error
 '''
 
-url = 'http://localhost:3000'
+BACKEND_PORT = os.getenv('BACKEND_PORT', '3000')
+PERMANENT_TOKEN = os.getenv('PERMANENT_TOKEN', 'permanentTokenExample')
+URL = f'http://localhost:{BACKEND_PORT}'
 stop_event = threading.Event()
 
 
@@ -23,12 +26,15 @@ else:
     experimentId = sys.argv[1]
     print('Executing experiment ' + experimentId)
 
+def addHeaders():
+    return {'Authorization': f'Bearer {PERMANENT_TOKEN}'}
+
 
 def get_experiment_from_api(experimentId):
-    urlExperiment = url + '/experiment/'+ str(experimentId)
+    urlExperiment = URL + '/experiment/'+ str(experimentId)
 
     try:
-        response = requests.get(urlExperiment)
+        response = requests.get(urlExperiment, headers = addHeaders())
 
         if response.status_code == 200:
             data = response.json()
@@ -43,10 +49,10 @@ def get_experiment_from_api(experimentId):
     
 
 def get_words_from_api(experimentId):
-    urlWord = url + '/word?experimentId='+ str(experimentId)+'&withResult=false'
+    urlWord = URL + '/word?experimentId='+ str(experimentId)+'&withResult=false'
 
     try:
-        response = requests.get(urlWord)
+        response = requests.get(urlWord, headers = addHeaders())
 
         if response.status_code == 200:
             data = response.json()
@@ -60,13 +66,13 @@ def get_words_from_api(experimentId):
         return None
     
 def patch_word_from_api(wordId, result):
-    urlWord = url + '/word/'+ str(wordId)
+    urlWord = URL + '/word/'+ str(wordId)
     patch_data = {
         'result': result
     }
 
     try:
-        response = requests.patch(urlWord, json=patch_data)
+        response = requests.patch(urlWord, json=patch_data, headers = addHeaders())
         if response.status_code in (200, 204):
             print('Patch successful.')
         else:
@@ -76,18 +82,18 @@ def patch_word_from_api(wordId, result):
         print(f'An error occurred: {e}')
 
 def stop_experiment_status_from_api(experimentId):
-    urlStopExperiment = url + '/experiment/stop/'+ str(experimentId)
+    urlStopExperiment = URL + '/experiment/stop/'+ str(experimentId)
     try:
-        requests.post(urlStopExperiment)
+        requests.post(urlStopExperiment, headers = addHeaders())
         print("Program marked as error")
     except Exception as e:
         print(e)
         print("Experiment not stopped")
 
 def error_experiment_status_from_api(experimentId):
-    urlErrorExperiment = url + '/experiment/error/'+ str(experimentId)
+    urlErrorExperiment = URL + '/experiment/error/'+ str(experimentId)
     try:
-        requests.post(urlErrorExperiment)
+        requests.post(urlErrorExperiment, headers = addHeaders())
         print("Program marked as error")
     except Exception as e:
         print(e)

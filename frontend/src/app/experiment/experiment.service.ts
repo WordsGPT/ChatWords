@@ -7,12 +7,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Experiment, ExperimentStatus } from './experiment';
 import { MessageService } from '../message/message.service';
 import { LoginService } from '../login/login.service';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ExperimentService {
 
-  private serverUrl = 'http://localhost:3000'
+  serverUrl = environment.BACKEND_URI
+
 
   private experimentsUrl = `${this.serverUrl}/experiment`;  // URL to web api
 
@@ -102,7 +103,7 @@ export class ExperimentService {
     const url = `${this.experimentsUrl}/generateExcel/${id}`;
     const httpOptions = this.loginService.getHeadersHttpOptions(true)
     this.http.get<{'filename': string}>(url, httpOptions)
-    .subscribe(experimentFileName => {window.open(`${this.serverUrl}/${experimentFileName.filename}`, '_blank')})
+    .subscribe(experimentFileName => {window.open(`${this.serverUrl}/docs/${experimentFileName.filename}`, '_blank')})
   }
 
 

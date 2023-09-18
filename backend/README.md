@@ -1,6 +1,12 @@
 
-# ChatWords
-A tool to evaluate GPT and language
+# ChatWords Backend
+![](https://img.shields.io/badge/WordsGPT%20Backend-ChatWords-blue)
+![](https://img.shields.io/badge/Node.js->=18-red)
+![](https://img.shields.io/badge/npm->=9-red)
+
+
+## Description
+ChatWords Backend
 
 
 ## Installation
@@ -9,7 +15,7 @@ A tool to evaluate GPT and language
 $ npm install
 ```
 
-## Running the app
+## Running the backend
 
 ```bash
 # development
@@ -21,22 +27,3 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-
-
-## License
-
-ChatWords is [MIT licensed](LICENSE).

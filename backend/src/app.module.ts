@@ -12,7 +12,11 @@ import { AuthGuard } from './auth/auth.guard';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
+      serveRoot: '/docs',
       rootPath: join(__dirname, '..', 'public'),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public/frontend'),
     }),
     DatabaseModule,
     ExperimentModule,
