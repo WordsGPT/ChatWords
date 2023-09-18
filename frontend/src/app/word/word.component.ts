@@ -7,6 +7,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Experiment } from '../experiment/experiment';
 import { ExperimentService } from '../experiment/experiment.service';
 import { FormsModule } from '@angular/forms';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-word-component',
@@ -29,6 +30,8 @@ export class WordComponent {
 	public collectionSize = 0;
   public wordsWithResultSize = 0;
 
+  private isLoggedIn = true;
+
   @Input('experimentId') experimentId: number = -1;
   public words: Word[] = [];
   public experiment: Experiment = {
@@ -42,24 +45,27 @@ export class WordComponent {
   };
 
 
-  constructor(private wordService: WordService, private experimentService: ExperimentService) {
-
+  constructor(private wordService: WordService, private experimentService: ExperimentService, 
+    private loginService: LoginService, private route:ActivatedRoute) {
+      this.loginService.isLoggedIn$.subscribe((isLoggedIn) => {
+        this.isLoggedIn = isLoggedIn;
+      });
    }
 
 
   ngOnInit(): void {
-    if (this.experimentId){
-      this.refreshExperiment()
-      this.refreshWords()
-
-      setInterval(() => {
-        if (this.experimentId){
-          this.refreshExperiment()
-          return this.refreshWords()
-        }
-      }, 2000);
-    }
+    this.getWordsPeriodically()
   }
+
+getWordsPeriodically(): void {
+  if (this.experimentId && window.location.href.includes('/experiment/')){
+    this.refreshExperiment()
+    this.refreshWords()
+      setTimeout(() => {
+        this.getWordsPeriodically()
+      }, 2000);
+  }
+}
 
 getExperimentStatus(status: number): string {
   return this.experimentService.getExperimentStatus(status);
@@ -142,19 +148,23 @@ getChunksWords(words: Word[], chunkSize: number) {
   }
 
   refreshWords() {
-    this.wordService.getWords(this.experimentId, "all", this.page, this.pageSize)
-    .subscribe(result => {
-      this.words = result[0],
-      this.collectionSize = result[1]
-    });
-    this.wordService.getWords(this.experimentId, "true", 1, 1)
-    .subscribe(result => {
-      this.wordsWithResultSize = result[1]
-    });
+    if(this.isLoggedIn){
+      this.wordService.getWords(this.experimentId, "all", this.page, this.pageSize)
+      .subscribe(result => {
+        this.words = result[0],
+        this.collectionSize = result[1]
+      });
+      this.wordService.getWords(this.experimentId, "true", 1, 1)
+      .subscribe(result => {
+        this.wordsWithResultSize = result[1]
+      });
+    }
 	}
 
   refreshExperiment() {
-    this.experimentService.getExperiment(this.experimentId)
-    .subscribe(experiment => this.experiment = experiment)
+    if(this.isLoggedIn){
+      this.experimentService.getExperiment(this.experimentId)
+      .subscribe(experiment => this.experiment = experiment)
+    }
   }
 }

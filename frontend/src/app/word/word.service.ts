@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Word } from './word';
 import { MessageService } from '../message/message.service';
+import { LoginService } from '../login/login.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -13,37 +14,34 @@ export class WordService {
 
   private wordsUrl = 'http://localhost:3000/word';  // URL to web api
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   constructor(
     private http: HttpClient,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loginService: LoginService) { }
 
-  /** GET words from the server */
   getWords(experimentId: number, withResult:string, page: number, pageSize:number): Observable<[Word[], number]> {
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
     return this.http.get<[Word[], number]>(`${this.wordsUrl}?experimentId=${experimentId}
-      &withResult=${withResult}&page=${page}&pageSize=${pageSize}`)
+      &withResult=${withResult}&page=${page}&pageSize=${pageSize}`, httpOptions)
       .pipe(
         tap(_ => this.log('fetched words')),
         catchError(this.handleError<[Word[], number]>('getWords', [[], 0]))
       );
   }
 
-  /** GET word by id. */
   getWord(id: number): Observable<Word> {
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
     const url = `${this.wordsUrl}/${id}`;
-    return this.http.get<Word>(url).pipe(
+    return this.http.get<Word>(url, httpOptions).pipe(
       tap(_ => this.log(`fetched word id=${id}`)),
       catchError(this.handleError<Word>(`getWord id=${id}`))
     );
   }
 
 
-  /** POST: add a new word to the server */
   addWord(word: Word): Observable<Word> {
-    return this.http.post<Word>(this.wordsUrl, word, this.httpOptions).pipe(
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.post<Word>(this.wordsUrl, word, httpOptions).pipe(
       tap((newWord: Word) => this.log(`added word w/ id=${newWord?.id || "none"}`)),
       catchError(this.handleError<Word>('addWord'))
     );
@@ -51,45 +49,40 @@ export class WordService {
 
     /** POST: add a new word to the server */
   addWords(words: Word[]): Observable<Word[]> {
+      const httpOptions = this.loginService.getHeadersHttpOptions(true)
       const url = `${this.wordsUrl}/multiple`;
-      return this.http.post<Word[]>(url, words, this.httpOptions).pipe(
+      return this.http.post<Word[]>(url, words, httpOptions).pipe(
         tap(() => this.log(`added words`)),
         catchError(this.handleError<Word[]>('addWords'))
       );
     }
   
 
-  /** DELETE: delete the word from the server */
   deleteWord(id: number): Observable<Word> {
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
     const url = `${this.wordsUrl}/${id}`;
-
-    return this.http.delete<Word>(url, this.httpOptions).pipe(
+    return this.http.delete<Word>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted word id=${id}`)),
       catchError(this.handleError<Word>('deleteWord'))
     );
   }
 
 
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   *
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
-      console.error(error); // log to console instead
+      if (error.status === 401) {
+        this.loginService.logout()
+      }
+
+      console.error(error);
 
       this.log(`${operation} failed: ${error.message}`);
 
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
 
-  /** Log a WordService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`WordService: ${message}`);
   }

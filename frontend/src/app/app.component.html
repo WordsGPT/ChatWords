@@ -1,3 +1,6 @@
 <h1>ChatWords</h1>
 
+<ng-container *ngIf="!isLoggedIn">
+    <app-login></app-login>
+</ng-container>
 <router-outlet></router-outlet>

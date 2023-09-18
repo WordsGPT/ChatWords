@@ -4,6 +4,7 @@ import { Experiment, ExperimentStatus } from './experiment';
 import { ExperimentService } from './experiment.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-experiment-creator',
@@ -14,10 +15,21 @@ import { RouterModule } from '@angular/router';
 })
 export class ExperimentCreatorComponent {
   public isCollapsed = true;
+  private isLoggedIn = true;
+
 
   experiments: Experiment[] = [];
 
-  constructor(private experimentService: ExperimentService) { }
+  constructor(private experimentService: ExperimentService, private loginService: LoginService) { 
+
+    this.loginService.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+      if (this.isLoggedIn) {
+        this.getExperiments();
+      }
+    });
+    
+  }
 
   @ViewChild('myForm') myForm: any;
 
