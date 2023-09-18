@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -8,7 +9,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 })
 export class LoginService {
 
-  private serverUrl = 'http://localhost:3000/auth/login'
+  serverUrl = environment.BACKEND_URI
+  private loginUrl = `${this.serverUrl}/auth/login`
 
   public isLoggedInSubject = new BehaviorSubject<boolean>(true);
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
@@ -19,7 +21,7 @@ export class LoginService {
 
   login(username: string, password: string): Observable<string> {
     const credentials = {username, password}
-    return this.http.post<string>(this.serverUrl, credentials, this.getHeadersHttpOptions(false)).pipe(
+    return this.http.post<string>(this.loginUrl, credentials, this.getHeadersHttpOptions(false)).pipe(
       tap((token: string) => {
         this.createToken(token)
         this.setLoggedIn(true)

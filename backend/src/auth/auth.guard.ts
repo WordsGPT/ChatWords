@@ -9,12 +9,15 @@ import {
   import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './decorators/public.decorator';
+import { ConfigService } from '@nestjs/config';
 
-const PERMANENT_TOKEN = process.env.PERMANENT_TOKEN || "permanentTokenExample"
   
   @Injectable()
   export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService, private reflector: Reflector) {}
+
+    PERMANENT_TOKEN = process.env.PERMANENT_TOKEN || "permanentTokenExample"
+
+    constructor(private jwtService: JwtService, private reflector: Reflector, configService: ConfigService) {}
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -32,7 +35,7 @@ const PERMANENT_TOKEN = process.env.PERMANENT_TOKEN || "permanentTokenExample"
         throw new UnauthorizedException();
       }
       try {
-        if (token !== PERMANENT_TOKEN){
+        if (token !== this.PERMANENT_TOKEN){
           const payload = await this.jwtService.verifyAsync(token, {
             secret: jwtConstants.secret,
           });

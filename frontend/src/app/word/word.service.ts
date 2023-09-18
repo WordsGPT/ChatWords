@@ -7,12 +7,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Word } from './word';
 import { MessageService } from '../message/message.service';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment.development';
 
 
 @Injectable({ providedIn: 'root' })
 export class WordService {
 
-  private wordsUrl = 'http://localhost:3000/word';  // URL to web api
+  serverUrl = environment.BACKEND_URI
+  private wordsUrl = `${this.serverUrl}/word`;  // URL to web api
 
   constructor(
     private http: HttpClient,

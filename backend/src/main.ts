@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import "reflect-metadata";
 
-const port: number = Number(process.env.BACKEND_PORT) || 3000
 
 async function bootstrap() {
 
@@ -10,6 +9,8 @@ async function bootstrap() {
     { cors: true,
       logger: ['error', 'warn']
     });
+
+  const port: number = Number(process.env.BACKEND_PORT) || 3000
   await app.listen(port);
   console.log(`Server listening on ${port}`)
 }

@@ -3,6 +3,7 @@ import pandas as pd
 import time
 import threading
 import os
+from dotenv import load_dotenv
 
 import sys
 
@@ -13,9 +14,12 @@ Experiment status:
 2: error
 '''
 
+load_dotenv('../../.env')
+
 BACKEND_PORT = os.getenv('BACKEND_PORT', '3000')
+BACKEND_HOST = os.getenv('BACKEND_HOST', 'localhost')
 PERMANENT_TOKEN = os.getenv('PERMANENT_TOKEN', 'permanentTokenExample')
-URL = f'http://localhost:{BACKEND_PORT}'
+URL = f'http://{BACKEND_HOST}:{BACKEND_PORT}'
 stop_event = threading.Event()
 
 

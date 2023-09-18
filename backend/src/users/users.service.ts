@@ -1,16 +1,21 @@
 import { Injectable } from '@nestjs/common';
-const USER_NAME = process.env.USER_NAME || "test";
-const USER_PASSWORD = process.env.USER_PASSWORD || "test";
+import { ConfigService } from '@nestjs/config';
+
 
 export type User = any;
 
 @Injectable()
 export class UsersService {
+  USER_NAME = process.env.USER_NAME || "test";
+  USER_PASSWORD = process.env.USER_PASSWORD || "test";
+  
+  constructor(private configService: ConfigService) {
+  }
   private readonly users = [
     {
       userId: 1,
-      username: USER_NAME,
-      password: USER_PASSWORD,
+      username: this.USER_NAME,
+      password: this.USER_PASSWORD,
     }
   ];
 

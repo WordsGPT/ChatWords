@@ -10,7 +10,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration development",
     "build": "ng build",
     "build:development": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
