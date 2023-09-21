@@ -1,0 +1,77 @@
+//Introduction Text
+.introduction
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    text-align: center
+    div
+        color: $dark-grey
+    .btn
+        background-color: $main-blue
+        color: $light-grey
+        border: 1px solid $main-blue
+        &:hover
+            background-color: $darker-blue
+        &:active
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(27, 57, 99, 0.075)
+            background-color: $darker-blue
+        &:focus-visible
+            box-shadow: 0 0 0 0.25rem rgba(27, 57, 99, 0.5)
+            background-color: $darker-blue
+
+//Form Create Experiment
+.add-exp-form
+    form
+        .form-label
+            color: $light-grey
+        button.add-exp-btn
+            background-color: $secondary-turquoise
+            color: $main-blue
+            &:hover
+                background-color: $light-turquoise
+                color: $main-blue
+            &:active
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(20, 51, 94, 0.075)
+                background-color: $light-turquoise
+                color: $main-blue
+            &:focus-visible
+                box-shadow: 0 0 0 0.25rem rgba(27, 57, 99, 0.5)
+                background-color: $light-turquoise
+                color: $main-blue
+
+//History Table
+.history
+    .table-responsive
+        .table-striped
+            > tbody    
+                > tr:nth-of-type(odd) > *
+                    background-color: $medium-orange
+                    border-color: $orange
+                    color: $main-blue
+                > tr > *
+                    background-color: $light-orange
+                    border-color: $orange
+                    color: $main-blue
+                    padding: 1.25rem 1.5rem 1rem
+                    &:first-child
+                        font-weight: bold
+                    button
+                        &:first-child
+                            background-color: $light-grey
+                            color: $main-blue
+                            &:active:focus
+                                background-color: $medium-grey
+                                color: $main-blue
+                            &:hover
+                                background-color: $medium-grey
+                                color: $main-blue
+            > thead > tr > *
+                color: $dark-grey
+                border-color: $light-grey
+                padding: 1.25rem 1.5rem
+                font-weight: normal
+                &:first-child
+                    font-weight: bold
+    .history-text
+        color: $main-blue

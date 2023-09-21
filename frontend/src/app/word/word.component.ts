@@ -54,6 +54,8 @@ export class WordComponent {
 
 
   ngOnInit(): void {
+    this.refreshExperiment()
+    this.refreshWords()
     this.getWordsPeriodically()
   }
 
