@@ -3,6 +3,7 @@
     display: flex
     justify-content: space-between
     margin-bottom: 1rem
+    align-items: flex-start
     .btn-return
         border: 1px solid $main-blue
         background-color: $light-grey
@@ -48,7 +49,7 @@
 //Load Words Form
 .card
     background-color: $main-blue
-    form.load-words-form
+    .load-words-form
         display: flex
         flex-direction: row
         align-items: flex-start
@@ -101,12 +102,12 @@
     margin-top: 10px
 
 //Words Result Table
-.words-result
-    .words-result-table
+section.words-result
+    table.words-result-table
         > thead > tr > *
             color: $dark-grey
             border-color: $light-grey
-            padding: 0.35rem 0.35rem 0.35rem
+            padding: 1.25rem 1.5rem
             font-weight: normal
             &:first-child
                 font-weight: bold
@@ -115,26 +116,36 @@
                 color: $main-blue
                 background-color: $light-grey
                 border-color: $dark-grey
-                padding: 0.35rem 0.35rem 0.35rem
+                padding: 1rem 1.5rem 1rem
                 &:first-child
                     font-weight: bold
             .btn-table
-                padding: 0
-                margin: 0
                 color: $dark-grey
                 border: none
+                height: 100%
                 &:hover
                     color: $darker-grey
                     border: none
-                &:active, &:focus
+                &:active
                     border: none
-                    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075)
+                    box-shadow: 1px 2px 14px 4px #a8a8a87e
+                &:focus
+                    border: none
+                    box-shadow: 1px 2px 14px 4px #a8a8a87e
                 i
                     padding: 0
                     margin: 0
                     font-size: 1.5rem
 
 //Pagination
-.page-link.active, .active > .page-link 
+.page-link.active, .active > .page-link
     background-color: $main-blue
     border-color: $darker-blue
+
+.select-items-page
+    display: flex
+    flex-direction: column
+    align-items: center
+    select
+        margin-bottom: 0.5rem
+        width: auto
