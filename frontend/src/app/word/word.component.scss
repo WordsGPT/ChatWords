@@ -11,7 +11,11 @@
 }
 
 
-.card > * {
- padding-left: 10px;
+.card {
+    padding: 50px;
+}
+
+ngb-progressbar {
+    height: 25px;
 }
 

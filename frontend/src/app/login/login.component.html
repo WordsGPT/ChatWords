@@ -1,0 +1,16 @@
+<section class="login">
+
+  <h2>Welcome</h2>
+  <p>To access <span class="logo-font">Chatwords</span> you must authenticate first.</p>
+  <form (ngSubmit)="authenticate()">
+    <label for="username" class="form-label">User</label>
+    <input type="text" class="form-control" [(ngModel)]="username" id="username" name="username" required>
+
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" [(ngModel)]="password" id="password" name="password" required>
+    <button type="submit" class="btn btn-secondary btn-login">
+      Login
+    </button>
+  </form>
+
+</section>

@@ -36,3 +36,7 @@ lerna-debug.log*
 
 # database
 *.sqlite
+
+public/*.xlsx
+public/*.csv
+public/frontend

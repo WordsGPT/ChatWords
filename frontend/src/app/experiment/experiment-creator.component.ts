@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { Experiment } from './experiment';
+import { Experiment, ExperimentStatus } from './experiment';
 import { ExperimentService } from './experiment.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-experiment-creator',
@@ -14,10 +15,21 @@ import { RouterModule } from '@angular/router';
 })
 export class ExperimentCreatorComponent {
   public isCollapsed = true;
+  private isLoggedIn = true;
+
 
   experiments: Experiment[] = [];
 
-  constructor(private experimentService: ExperimentService) { }
+  constructor(private experimentService: ExperimentService, private loginService: LoginService) { 
+
+    this.loginService.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+      if (this.isLoggedIn) {
+        this.getExperiments();
+      }
+    });
+    
+  }
 
   @ViewChild('myForm') myForm: any;
 
@@ -34,6 +46,10 @@ export class ExperimentCreatorComponent {
     .subscribe(experiments => this.experiments = experiments);
   }
 
+  getExperimentStatus(status: number): string {
+    return this.experimentService.getExperimentStatus(status);
+  }
+
   add(name: string, model: string, version: string, program: string, configurationTemperature: string ): void {
     name = name.trim();
     if (!name || !model || !version) { return; }
@@ -45,8 +61,10 @@ export class ExperimentCreatorComponent {
   }
 
   delete(experiment: Experiment): void {
-    this.experiments = this.experiments.filter(h => h !== experiment);
-    this.experimentService.deleteExperiment(experiment.id).subscribe();
+      if (confirm(`Are you sure that you want to delete the experiment ${experiment.name}?`)) {
+        this.experiments = this.experiments.filter(exp => exp !== experiment);
+        this.experimentService.deleteExperiment(experiment.id).subscribe();
+    }
   }
 
 }

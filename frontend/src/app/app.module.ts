@@ -8,6 +8,8 @@ import { ExperimentCreatorComponent } from './experiment/experiment-creator.comp
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { WordComponent } from './word/word.component';
+import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { WordComponent } from './word/word.component';
     AppRoutingModule,
     ExperimentCreatorComponent,
     WordComponent,
+    FormsModule,
+    LoginComponent,
     NgbModule,
     RouterModule
   ],

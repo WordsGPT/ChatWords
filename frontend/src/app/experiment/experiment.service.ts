@@ -1,29 +1,50 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParamsOptions } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Experiment } from './experiment';
+import { Experiment, ExperimentStatus } from './experiment';
 import { MessageService } from '../message/message.service';
-
+import { LoginService } from '../login/login.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ExperimentService {
 
-  private experimentsUrl = 'http://localhost:3000/experiment';  // URL to web api
+  serverUrl = environment.BACKEND_URI
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+
+  private experimentsUrl = `${this.serverUrl}/experiment`;  // URL to web api
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private loginService: LoginService
+    
+    ) {}
+
+
+
+
+  getExperimentStatus(status: number): string {
+    if (ExperimentStatus['running'] === status){
+      return 'running'
+    } else if (ExperimentStatus['stopped'] === status){
+      return 'stopped'
+    } else if (ExperimentStatus['error'] === status){
+      return 'error'
+    } else {
+      return 'none'
+    }
+  
+  }
+  
 
   /** GET experiments from the server */
   getExperiments(): Observable<Experiment[]> {
-    return this.http.get<Experiment[]>(this.experimentsUrl)
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.get<Experiment[]>(this.experimentsUrl, httpOptions)
       .pipe(
         tap(_ => this.log('fetched experiments')),
         catchError(this.handleError<Experiment[]>('getExperiments', []))
@@ -32,8 +53,9 @@ export class ExperimentService {
 
   /** GET experiment by id. */
   getExperiment(id: number): Observable<Experiment> {
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
     const url = `${this.experimentsUrl}/${id}`;
-    return this.http.get<Experiment>(url).pipe(
+    return this.http.get<Experiment>(url, httpOptions).pipe(
       tap(_ => this.log(`fetched experiment id=${id}`)),
       catchError(this.handleError<Experiment>(`getExperiment id=${id}`))
     );
@@ -42,7 +64,8 @@ export class ExperimentService {
 
   /** POST: add a new experiment to the server */
   addExperiment(experiment: Experiment): Observable<Experiment> {
-    return this.http.post<Experiment>(this.experimentsUrl, experiment, this.httpOptions).pipe(
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.post<Experiment>(this.experimentsUrl, experiment, httpOptions).pipe(
       tap((newExperiment: Experiment) => this.log(`added experiment w/ id=${newExperiment.id}`)),
       catchError(this.handleError<Experiment>('addExperiment'))
     );
@@ -51,23 +74,36 @@ export class ExperimentService {
   /** DELETE: delete the experiment from the server */
   deleteExperiment(id: number): Observable<Experiment> {
     const url = `${this.experimentsUrl}/${id}`;
-
-    return this.http.delete<Experiment>(url, this.httpOptions).pipe(
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.delete<Experiment>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted experiment id=${id}`)),
       catchError(this.handleError<Experiment>('deleteExperiment'))
     );
   }
 
-  runExperiment(id: number): void {
+  runExperiment(id: number): Observable<Experiment> {
     const url = `${this.experimentsUrl}/run/${id}`;
-    this.http.get(url, this.httpOptions).subscribe(
-      (response: any) => {
-        console.log('Answer of API:', response);
-      },
-      (error: any) => {
-        console.error('Error in the HTTP request:', error);
-      }
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.post<Experiment>(url, undefined, httpOptions).pipe(
+      tap(_ => this.log(`fetched experiment id=${id}`)),
+      catchError(this.handleError<Experiment>(`getExperiment id=${id}`))
     );
+  }
+
+  stopExperiment(id: number): Observable<Experiment> {
+    const url = `${this.experimentsUrl}/stop/${id}`;
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    return this.http.post<Experiment>(url, undefined, httpOptions).pipe(
+      tap(_ => this.log(`fetched experiment id=${id}`)),
+      catchError(this.handleError<Experiment>(`getExperiment id=${id}`))
+    );
+  }
+
+  generateExcel(id:number): void {
+    const url = `${this.experimentsUrl}/generateExcel/${id}`;
+    const httpOptions = this.loginService.getHeadersHttpOptions(true)
+    this.http.get<{'filename': string}>(url, httpOptions)
+    .subscribe(experimentFileName => {window.open(`${this.serverUrl}/docs/${experimentFileName.filename}`, '_blank')})
   }
 
 
@@ -80,6 +116,10 @@ export class ExperimentService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+
+      if (error.status === 401) {
+        this.loginService.logout()
+      }
 
       console.error(error); // log to console instead
 

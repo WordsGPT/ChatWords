@@ -3,6 +3,7 @@ export class CreateExperimentDto {
   model: string;
   version: string;
   program: string;
+  status: number;
   configuration: ExperimentConfiguration;
 }
 
