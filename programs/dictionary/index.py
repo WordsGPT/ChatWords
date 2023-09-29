@@ -41,17 +41,20 @@ def loop_through(df):
         prompt_2_answer = asyncio.run(openai_api.send_message_openai(word, type=2))
         prompt_3_answer = asyncio.run(openai_api.send_message_openai(word, type=3))
         prompt_4_answer = asyncio.run(openai_api.send_message_openai(word, type=4))
+        prompt_5_answer = asyncio.run(openai_api.send_message_openai(word, type=5))
 
         df.loc[index, COLUMNS[0]] = prompt_1_answer
         df.loc[index, COLUMNS[1]] = prompt_2_answer
         df.loc[index, COLUMNS[2]] = prompt_3_answer
         df.loc[index, COLUMNS[3]] = prompt_4_answer
+        df.loc[index, COLUMNS[4]] = prompt_5_answer
 
         result = {
             COLUMNS[0]: prompt_1_answer,
             COLUMNS[1]: prompt_2_answer,
             COLUMNS[2]: prompt_3_answer,
             COLUMNS[3]: prompt_4_answer,
+            COLUMNS[4]: prompt_5_answer,
         }
         connector.patch_word_from_api(word_id, result, url=URL, token=PERMANENT_TOKEN)
 
