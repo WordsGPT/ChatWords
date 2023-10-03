@@ -30,7 +30,7 @@ Citation:
 ## Description
 
 In ChatWords, users can define experiments to evaluate the knowledge that an AI has of a list of words and then can run the experiments. The results are stored in a database and can be visualized on the screen or downloaded as an excel file.
-An experiment takes as input series of questions to be asked, the AI model to evaluate and its parameters and enables the user to upload the words to be checked on the screen or in a .txt file. 
+An experiment takes as input series of questions to be asked, the AI model to evaluate and its parameters and enables the user to upload the words to be checked on the screen or in a .txt file (the file is parsed to extract the list of unique words, erasing punctuation marks, but note that this list may include number or other artifacts present in the source file). 
 
 For example, in a simple experiment we can select ChatGPT3.5 as a model, set its temperature value to 0.0, and configure these five questions:
 
