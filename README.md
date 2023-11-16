@@ -53,6 +53,85 @@ ChatWords queries ChatGPT using OpenAI’s API and stores the answers in a datab
 
 ## Installation
 
+ChatWords is programmed in Nest.js (a progressive Node.js framework for the development of web applications) for the back-end, and Angular (a web development JavaScript framework) for the
+front-end. The application stores the configuration and results for each experiment in a simple and easy-to-configure database. To install the application, perform the following steps.
+
+### Prerequisites
+
+- Git: To clone the repository, you need Git installed on your machine.
+- Node.js: The project requires Node.js version 18 or higher. You can download it from the [official Node.js website](https://nodejs.org/).
+- npm: Chatwords requires you to have npm version 9 or higher, which typically comes with Node.js. To check your npm version, execute `npm -v` in your terminal.
+
+### Cloning the repository
+
+1. Open your terminal
+2. Run the following command to clone the repository of the project:
+   ```bash
+   git clone https://github.com/WordsGPT/ChatWords.git
+   ```
+3. Change to the cloned repository
+   ```bash
+   cd ChatWords
+   ```
+   
+### Back-end Installation
+
+1. Change directory to the backend folder:
+
+```bash
+cd backend
+```
+
+2. Install the required packages:
+
+```bash
+npm install
+```
+
+3. If you encounter any critical or moderate vulnerabilites in the installed packages, execute:
+
+```bash
+npm audit fix
+```
+
+
+### Front-end Installation
+
+1. Move to the front-end folder at the root of the ChatWords directory:
+
+```bash
+cd ..
+cd frontend
+```
+
+2. Install the required packages:
+
+```bash
+npm install
+```
+
+### Executing the application
+
+To execute the application, you need to run both the back-end and front-end. To do so, launch two terminals, performing the following commands in each of them.
+
+To execute the back-end:
+
+- Development Mode: Run `npm run` start.
+- Watch Mode: Run `npm run start:dev` for live reloading.
+- Production Mode: Run `npm run start:prod`.
+
+To execute the front-end:
+
+- Development Mode: Run `npm run start`
+
+In Windows machines, you might be prompted to allow Node.js component to connect to the network. Press "Accept" to enable the network access of the process. 
+
+To access the application, open your browser and navigate to `http://localhost:4200/` 
+
+### Building the front-end
+
+Run `ng build` to build the project. This will optimize the existing Angular code, creating some new artifacts. The build artifacts will be stored in the `dist/` directory.
+
 ## Extending ChatWords (Developer Guide)
 
 
