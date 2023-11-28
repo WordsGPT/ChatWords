@@ -9,6 +9,9 @@ PERMANENT_TOKEN=exampleBackendTok
 USER_NAME=
 USER_PASSWORD=
 
+## App backend port (mandatory) # same as PROGRAM_BACKEND_PORT
+BACKEND_PORT = 9090
+
 ## Proxy settings (mandatory)
 PROXY_URI=http://proxy_host:9091
 PROXY_MASTER_KEY=
