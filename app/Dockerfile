@@ -67,7 +67,7 @@ RUN npm --prefix backend/ run build
 
 
 # Expose the port that the application listens on.
-EXPOSE 3000
+EXPOSE 9090
 
 # Run the application.
 CMD npm run --prefix ./backend start
