@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 3000:3000
+      - 9090:9090
     env_file:
       - .envapp
     networks:
