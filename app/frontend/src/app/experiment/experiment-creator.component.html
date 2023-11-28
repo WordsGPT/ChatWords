@@ -61,7 +61,7 @@
 					<label  class="form-label">Custom Prompts</label>
 					<ngx-bootstrap-multiselect [options]="myPrompts" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" name="name"></ngx-bootstrap-multiselect>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-12" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
 					<ul *ngFor="let id of optionsModel">
 						<li style="color: azure">{{displayPrompts[id]}}</li>
 					</ul>
