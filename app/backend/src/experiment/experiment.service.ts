@@ -134,7 +134,7 @@ export class ExperimentService {
       return await this.runPython(id, experiment)
     }
   }
-
+  /*
   async runProxy (id:string, experiment:ExperimentEntity) {
     try {
       const prompts = [];
@@ -152,6 +152,39 @@ export class ExperimentService {
       }
       experiment.status = 3;
       await this.experimentRepository.save(experiment);
+    } catch (error) {
+      console.log(error);
+      return this.error(id, experiment);
+    }
+  }
+  */
+  async runProxy (id:string, experiment:ExperimentEntity) {
+    try {
+      const prompts = [];
+      experiment.prompts.forEach((element) => {
+        prompts.push(element.content)
+      })
+      const words = await this.wordService.findAllFromExperiment(experiment.id)
+      experiment.status = 1;
+      await this.experimentRepository.save(experiment);
+      for (const word of words) {
+        if((await this.findOne(+experiment.id)).status == 1) {
+          console.log(word)
+          if (word.result == null) {
+            const result = await this.queryProxy(word.name, prompts, experiment.model);
+            await this.wordService.update(word.id, { result } as UpdateWordDto);
+          }
+        }
+        else {
+          console.log("experiment.status != 1")
+          console.log(experiment.status)
+          break
+        }
+      }
+      if ((await this.findOne(+experiment.id)).status == 1) {
+        experiment.status = 3;
+        await this.experimentRepository.save(experiment);
+      }
     } catch (error) {
       console.log(error);
       return this.error(id, experiment);
