@@ -169,15 +169,12 @@ export class ExperimentService {
       await this.experimentRepository.save(experiment);
       for (const word of words) {
         if((await this.findOne(+experiment.id)).status == 1) {
-          console.log(word)
           if (word.result == null) {
             const result = await this.queryProxy(word.name, prompts, experiment.model);
             await this.wordService.update(word.id, { result } as UpdateWordDto);
           }
         }
         else {
-          console.log("experiment.status != 1")
-          console.log(experiment.status)
           break
         }
       }
