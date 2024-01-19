@@ -47,7 +47,7 @@ with two input words:
 ChatWords queries ChatGPT using OpenAI’s API and stores the answers in a database for further processing.  The answers can also be visualized on the screen as shown below.
 
 <p align="center">
-  <img src="doc/img/example.png" />
+  <img src="app/doc/img/example.png" />
 </p>
 
 
