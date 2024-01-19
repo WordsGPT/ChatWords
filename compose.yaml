@@ -1,0 +1,46 @@
+name: chatwords
+services:
+
+  app:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    container_name: app-container
+    restart: always
+    environment:
+      NODE_ENV: production
+    ports:
+      - 9090:9090
+    env_file:
+      - .envapp
+    networks:
+        chatwords_network:
+          aliases:
+            - app_host
+    volumes:
+      - ./app/backend/database:/app/backend/database
+
+  proxy:
+    build:
+      context: ./liteLLM-proxy
+      dockerfile: ./Dockerfile
+    container_name: proxy-container
+    restart: always
+    ports:
+      - 9091:9091
+    env_file:
+      - .envproxy
+    networks:
+      chatwords_network:
+        aliases:
+          - proxy_host
+
+volumes:
+  database: {}
+networks:
+  chatwords_network:
+    name: chatwords_network
+    driver: bridge
+    ipam:
+      driver: default
+

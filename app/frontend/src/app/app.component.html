@@ -1,0 +1,21 @@
+<header>
+    <h1 id="logo">
+        <a href="../index.html">
+            <img src="../assets/img/Logo_Chatwords.svg" alt="ChatWords">
+        </a>
+        <!-- <h1 class="">ChatWords</h1> -->
+    </h1>
+</header>
+
+<ng-container *ngIf="!isLoggedIn">
+    <section class="body-padding">
+        <app-login></app-login>
+    </section>
+</ng-container>
+<router-outlet></router-outlet>
+
+
+<footer class="github-link">
+    <span>ChatWords version {{version}}</span>
+    <a href="https://github.com/WordsGPT/ChatWords" target="_blank">Visit our GitHub <i class="bi bi-github"></i></a> to learn more information about this project.
+</footer>

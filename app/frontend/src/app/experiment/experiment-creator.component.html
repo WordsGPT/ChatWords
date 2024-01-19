@@ -1,0 +1,163 @@
+<div class="content-wrap">
+	<section class="introduction">
+		<div>
+			<h2>Get Started</h2>
+			<p><span class="logo-font">ChatWords</span> takes as input a list of words and performs a series of
+				questions to
+				the AI model being evaluated
+				to <b>gather information on its knowledge</b> of each word. The questions and parameters of the AI model
+				<b>can be
+					selected by the user</b>.
+				<br><br>To start, <b>click the button</b> to create a new experiment:
+			</p>
+		</div>
+		<p class="btn-right">
+			<button type="button" class="btn btn-secondary" (click)="collapse.toggle()"
+				[attr.aria-expanded]="!isCollapsed" aria-controls="collapseExperiment">
+				Create a new experiment
+			</button>
+		</p>
+	</section>
+	<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="body-padding">
+		<div class="card add-exp-form">
+			<form class="row g-3">
+				<div class="col-md-6">
+					<label for="new-experiment-name" class="form-label">Name</label>
+					<input type="text" class="form-control" id="new-experiment-name" #experimentName>
+				</div>
+				<div class="col-md-6">
+					<label for="new-experiment-program" class="form-label">Program</label>
+					<select class="form-control" id="new-experiment-program" #experimentProgram 
+						(change)="switchPrograms(experimentProgram.value)">
+
+						<option selected value="dictionary">Spanish Dictionary</option>
+						<option value="proxy">Custom Prompts</option>
+						<!-- <option value="other">Other</option> -->
+					</select>
+				</div>
+				<div class="col-md-5" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+					<label for="new-experiment-company" class="form-label">Company</label>
+					<select id="new-experiment-company" class="form-select" #experimentCompany>
+						<option *ngFor="let company of availableCompanies">
+							{{company}}
+						</option>
+					</select>
+				</div>
+				<div class="col-md-5">
+					<label for="new-experiment-model" class="form-label">Model</label>
+					<select id="new-experiment-model" class="form-select" #experimentModel>
+						<option *ngIf="experimentProgram.value != 'proxy'" selected value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+						<option #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2" *ngFor="let model of availableIAs[experimentCompany.value]">
+							{{model}}
+						</option>
+					</select>
+				</div>
+				<div class="col-md-2">
+					<label for="new-experiment-configuration-temperature" class="form-label">Temperature</label>
+					<input type="number" id="new-experiment-configuration-temperature" min="0" max="2" value="0"
+						step="0.1" class="form-control" #experimentConfigurationTemperature>
+				</div>
+				<div class="col-md-12" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+					<label  class="form-label">Custom Prompts</label>
+					<ngx-bootstrap-multiselect [options]="myPrompts" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" name="name"></ngx-bootstrap-multiselect>
+				</div>
+				<div class="col-md-12" #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+					<ul *ngFor="let id of optionsModel">
+						<li style="color: azure">{{displayPrompts[id]}}</li>
+					</ul>
+				</div>
+				<div class="col-md-2" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="
+						collapse3.toggle(false);
+						collapse4.toggle(true);">
+						<i class="bi bi-plus-circle"></i>
+						New Prompt
+					</button>
+				</div>
+				<div class="col-md-4" #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="deletePrompts()">
+						<i class="bi bi-plus-circle"></i>
+						Delete selected Prompts
+					</button>
+				</div>
+				<div class="col-md-12" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+					<label for="new-prompt-content" class="form-label">New Custom Prompt</label>
+					<input type="text" id="new-prompt-content" class="form-control" #newPromptContent>
+				</div>
+				<div class="col-md-2" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="addPrompt(
+						newPromptContent.value);
+						collapse3.toggle(true);
+						collapse4.toggle(false);">
+						<i class="bi bi-plus-circle"></i>
+						Add Prompt
+					</button>
+				</div>
+				<div class="col-md-3" #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="
+						collapse3.toggle(true);
+						collapse4.toggle(false);">
+						<i class="bi bi-plus-circle"></i>
+						Discard Prompt
+					</button>
+				</div>
+
+				<div class="col-12 text-center">
+					<button type="button" class="btn btn-secondary add-exp-btn" (click)="add(
+					experimentName.value, 
+					experimentModel.value,
+					experimentProgram.value,
+					experimentConfigurationTemperature.value);">
+						<i class="bi bi-plus-circle"></i>
+						Add experiment
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<section class="body-padding history">
+		<article class="history-text">
+			<div>
+				<h3>History</h3>
+				<p>In this section you will find all your experiments. You can <b>view them in detail</b> or <b>delete
+						them</b>.
+				</p>
+			</div>
+		</article>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Program</th>
+						<th scope="col">Model</th>
+						<th scope="col">Configuration</th>
+						<th scope="col">Status</th>
+						<th scope="col" class="btn-right">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let experiment of experiments">
+						<td>{{ experiment.name }}</td>
+						<td>{{ experiment.program }}</td>
+						<td>{{ experiment.model }}</td>
+						<td>
+							<ul *ngFor="let item of experiment.configuration | keyvalue">
+								<li>{{item.key}}: {{item.value}}</li>
+							</ul>
+						</td>
+						<td>{{getExperimentStatus(experiment.status)}}</td>
+						
+						<td class="action-btns btn-right">
+							<button routerLink="/experiment/{{experiment.id}}" type="button"
+								class="btn btn-secondary btn-table"><i class="bi bi-eye"></i></button>
+							<button type="button" class="btn btn-danger btn-table" (click)="delete(experiment)"><i
+									class="bi bi-trash"></i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</div>
